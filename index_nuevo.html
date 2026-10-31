@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="inicio">
+
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="topbar">
+    <div>
+        <h1 class="titulo">SMARTCUSTOMS NI</h1>
+        <p>Gestión Aduanera Inteligente</p>
+    </div>
+    <button class="login-btn" id="btnSalir">Cerrar Sesión</button>
+</div>
+
+<div class="banner">
+    <h1 id="saludo">Bienvenido a SmartCustoms NI</h1>
+    <p>Sistema inteligente para elaboración de declaraciones aduaneras compatibles con SIDUNEA World.</p>
+</div>
+
+<div class="cards">
+    <div class="card"><h2 id="statHoy">0</h2><p>Declaraciones Hoy</p></div>
+    <div class="card"><h2 id="statXml">0</h2><p>XML Generados</p></div>
+    <div class="card"><h2 id="statClientes">0</h2><p>Clientes Activos</p></div>
+    <div class="card"><h2 id="statAprobadas">0%</h2><p>Aprobadas</p></div>
+</div>
+
+<div class="panel">
+    <h2>Panel Principal</h2>
+    <p>Seleccione una opción del menú lateral para comenzar.</p>
+    <p id="resumenGuardadas" style="margin-top:8px;color:#6b7280"></p>
+</div>
+
+<div class="footer">SmartCustoms NI © 2026 - Todos los Derechos Reservados.</div>
+
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

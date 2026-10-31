@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI - Nueva Declaración</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="nueva">
+
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="header">
+    <div>
+        <h1>Nueva Declaración Aduanera</h1>
+        <p>Compatible con SIDUNEA World</p>
+    </div>
+</div>
+
+<!-- DATOS DE LA DECLARACIÓN -->
+<div class="form-card">
+    <h2>Datos de la Declaración</h2>
+    <div class="grid">
+        <div>
+            <label>Referencia DUA</label>
+            <input type="text" placeholder="209754">
+        </div>
+        <div>
+            <label>Manifiesto</label>
+            <input type="text" placeholder="2026 29054">
+        </div>
+        <div>
+            <label>Tipo Declaración</label>
+            <select>
+                <option>IMP</option>
+                <option>EXP</option>
+            </select>
+        </div>
+        <div>
+            <label>Procedimiento General</label>
+            <input type="text" placeholder="4">
+        </div>
+        <div>
+            <label>Aduana de Despacho</label>
+            <input type="text" placeholder="0610">
+        </div>
+        <div>
+            <label>Total Formularios</label>
+            <input type="number" placeholder="2">
+        </div>
+    </div>
+</div>
+
+<!-- OPERADORES -->
+<div class="form-card">
+    <h2>Operadores</h2>
+    <div class="grid">
+        <div data-ignorar>
+            <label>Cliente guardado</label>
+            <select id="selCliente">
+                <option value="">-- Seleccionar --</option>
+            </select>
+        </div>
+        <div>
+            <label>Código Consignatario</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Código Declarante</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Cliente / Importador</label>
+            <input type="text">
+        </div>
+    </div>
+</div>
+
+<!-- PAÍSES -->
+<div class="form-card">
+    <h2>Países</h2>
+    <div class="grid">
+        <div>
+            <label>Primer Destino</label>
+            <input type="text" placeholder="US">
+        </div>
+        <div>
+            <label>País Comercial</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>País Exportación</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>País Destino</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>País Origen</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Nombre País Origen</label>
+            <input type="text">
+        </div>
+    </div>
+</div>
+
+
+<div class="form-card">
+    <h2>Transporte</h2>
+    <div class="grid">
+        <div>
+            <label>Identidad Transporte</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Nacionalidad Transporte</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Transporte Frontera</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Nacionalidad Frontera</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Modo Transporte</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Modo Transporte Interno</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Incoterm</label>
+            <select>
+                <option>CIP</option>
+                <option>DAP</option>
+                <option>CIF</option>
+                <option>FOB</option>
+            </select>
+        </div>
+        <div>
+            <label>Lugar Entrega</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Aduana Frontera</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Lugar Carga</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Ubicación Mercancía</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Contenedor</label>
+            <select>
+                <option>SI</option>
+                <option>NO</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<div class="form-card">
+    <h2>Información Financiera</h2>
+    <div class="grid">
+        <div>
+            <label>Código Financiero 1</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Código Financiero 2</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Banco</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Forma de Pago</label>
+            <input type="text">
+        </div>
+        <div>
+            <label>Monto Garantía</label>
+            <input type="number">
+        </div>
+    </div>
+</div>
+
+
+<div class="form-card">
+    <h2>Valores Aduaneros</h2>
+    <div class="grid">
+        <div>
+            <label>Valor Factura</label>
+            <input type="number" id="valorFactura" class="calc-cif">
+        </div>
+        <div>
+            <label>Flete Internacional</label>
+            <input type="number" id="fleteInternacional" class="calc-cif">
+        </div>
+        <div>
+            <label>Flete Nacional</label>
+            <input type="number" id="fleteNacional" class="calc-cif">
+        </div>
+        <div>
+            <label>Seguro</label>
+            <input type="number" id="seguro" class="calc-cif">
+        </div>
+        <div>
+            <label>Otros Gastos</label>
+            <input type="number" id="otrosGastos" class="calc-cif">
+        </div>
+        <div>
+            <label>Deducciones</label>
+            <input type="number" id="deducciones" class="calc-cif">
+        </div>
+        <div>
+            <label>Peso Bruto Total</label>
+            <input type="number">
+        </div>
+        <div>
+            <label>Total CIF</label>
+            <input type="number" id="totalCIF" readonly>
+        </div>
+    </div>
+</div>
+
+<!-- DOCUMENTOS -->
+<div class="form-card">
+    <h2>Documentos Adjuntos</h2>
+    <div class="tabla-scroll">
+        <table>
+            <tr>
+                <th>Código</th>
+                <th>Documento</th>
+                <th>Referencia</th>
+                <th>Fecha</th>
+            </tr>
+            <tr>
+                <td>380</td>
+                <td>Factura Comercial</td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+            </tr>
+            <tr>
+                <td>705</td>
+                <td>Conocimiento de Embarque</td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+            </tr>
+            <tr>
+                <td>OO38</td>
+                <td>Minuta Bancaria</td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+            </tr>
+            <tr>
+                <td>OO24</td>
+                <td>Otros Permisos</td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+            </tr>
+            <tr>
+                <td>934</td>
+                <td>Declaración de Valor</td>
+                <td><input type="text"></td>
+                <td><input type="date"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- MERCANCIAS -->
+<div class="form-card">
+    <h2>Mercancías</h2>
+    <div class="tabla-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Partida</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Peso Bruto</th>
+                    <th>Peso Neto</th>
+                    <th>FOB</th>
+                    <th>Origen</th>
+                    <th>Proc.</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpoMercancias">
+            <tr>
+                <td><input type="text" placeholder="73079900"></td>
+                <td><input type="text"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="text"></td>
+                <td><input type="text" placeholder="4000"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="84818090"></td>
+                <td><input type="text"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="number"></td>
+                <td><input type="text"></td>
+                <td><input type="text" placeholder="4000"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="botones">
+    <button class="agregar" onclick="agregarMercancia()">Agregar Mercancía</button>
+    <button class="guardar" onclick="guardarDeclaracion()">Guardar Declaración</button>
+    <button class="dav" onclick="generarXML('DAV')">Generar XML DAV</button>
+    <button class="dua" onclick="generarXML('DUA')">Generar XML DUA</button>
+    <button class="volver" onclick="window.location.href='index_nuevo.html'">Volver</button>
+</div>
+
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI - Productos</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="productos">
+
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="header">
+    <div>
+        <h1>Productos y Partidas Arancelarias</h1>
+        <p>Catálogo que se carga en la tabla de mercancías de la declaración</p>
+    </div>
+</div>
+
+<div class="form-card" id="formProducto">
+    <h2 id="tituloFormProducto">Nuevo producto</h2>
+    <div class="grid">
+        <div>
+            <label for="pPartida">Partida arancelaria (8 dígitos)</label>
+            <input type="text" id="pPartida" maxlength="8" inputmode="numeric" placeholder="73079900">
+        </div>
+        <div>
+            <label for="pDescripcion">Descripción</label>
+            <input type="text" id="pDescripcion" >
+        </div>
+        <div>
+            <label for="pOrigen">País de origen (2 letras)</label>
+            <input type="text" id="pOrigen" maxlength="2" placeholder="US">
+        </div>
+        <div>
+            <label for="pProc">Procedimiento</label>
+            <input type="text" id="pProc" value="4000">
+        </div>
+    </div>
+    <p id="errorProducto" class="error-texto"></p>
+    <div class="botones izq">
+        <button class="guardar" id="btnGuardarProducto">Guardar producto</button>
+        <button class="limpiar" id="btnLimpiarProducto">Limpiar</button>
+    </div>
+</div>
+
+<div class="filtros">
+    <label for="pBuscar">Buscar por partida o descripción</label>
+    <input type="text" id="pBuscar">
+</div>
+
+<div class="tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>Partida</th>
+                <th>Descripción</th>
+                <th>Origen</th>
+                <th>Proc.</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="listaProductos"></tbody>
+    </table>
+</div>
+
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+<script src="js/productos.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI - Buscar Declaraciones</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="buscar">
+
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="header">
+    <div>
+        <h1>Buscar Declaraciones</h1>
+        <p>Consulta y administración de declaraciones aduaneras</p>
+    </div>
+</div>
+
+<!-- FILTROS -->
+<div class="filtros">
+    <div class="grid grid-5">
+        <div>
+            <label>No. Referencia</label>
+            <input type="text" id="fRef">
+        </div>
+        <div>
+            <label>Factura</label>
+            <input type="text" id="fFactura">
+        </div>
+        <div>
+            <label>Cliente</label>
+            <input type="text" id="fCliente">
+        </div>
+        <div>
+            <label>Fecha Desde</label>
+            <input type="date" id="fDesde">
+        </div>
+        <div>
+            <label>Fecha Hasta</label>
+            <input type="date" id="fHasta">
+        </div>
+    </div>
+
+    <div class="botones">
+        <button class="buscar" onclick="buscarDeclaraciones()">Buscar</button>
+        <button class="limpiar" onclick="limpiarFiltros()">Limpiar</button>
+        <button class="nueva" onclick="window.location.href='nueva_declaracion.html'">Nueva Declaración</button>
+    </div>
+</div>
+
+<!-- RESULTADOS -->
+<div class="tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>Estado</th>
+                <th>Referencia</th>
+                <th>Declaración</th>
+                <th>Factura</th>
+                <th>Cliente</th>
+                <th>Proveedor</th>
+                <th>Aduana</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="resultados">
+                <tr data-fila>
+                    <td><span class="estado pendiente">Pendiente</span></td>
+                    <td>210426</td>
+                    <td>IMP</td>
+                    <td>INV-00125</td>
+                    <td>ROCEDES S.A.</td>
+                    <td>ABC INDUSTRIES USA</td>
+                    <td>0610</td>
+                    <td>03/09/2026</td>
+                    <td class="acciones"></td>
+                </tr>
+                <tr data-fila>
+                    <td><span class="estado revisado">Revisado</span></td>
+                    <td>210427</td>
+                    <td>IMP</td>
+                    <td>INV-00126</td>
+                    <td>ROCEDES S.A.</td>
+                    <td>GLOBAL SUPPLY</td>
+                    <td>0640</td>
+                    <td>04/09/2026</td>
+                    <td class="acciones"></td>
+                </tr>
+                <tr data-fila>
+                    <td><span class="estado aprobado">Aprobado</span></td>
+                    <td>210428</td>
+                    <td>IMP</td>
+                    <td>INV-00127</td>
+                    <td>ROCEDES S.A.</td>
+                    <td>TECHNICAL PARTS INC</td>
+                    <td>0610</td>
+                    <td>05/09/2026</td>
+                    <td class="acciones"></td>
+                </tr>
+                <tr id="sinDatos" style="display:none">
+                    <td colspan="9" class="sin-datos">No se encontraron declaraciones.</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="footer">SmartCustoms NI © 2026 | Gestión Inteligente de Declaraciones Aduaneras</div>
+
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

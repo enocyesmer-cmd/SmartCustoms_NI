@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI - Reportes</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="reportes">
+
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="header">
+    <div>
+        <h1>Reportes</h1>
+        <p>Declaraciones guardadas por mes, cliente, aduana o estado</p>
+    </div>
+</div>
+
+<div class="filtros no-imprimir">
+    <div class="grid grid-5">
+        <div>
+            <label for="rDesde">Fecha desde</label>
+            <input type="date" id="rDesde" >
+        </div>
+        <div>
+            <label for="rHasta">Fecha hasta</label>
+            <input type="date" id="rHasta" >
+        </div>
+        <div>
+            <label for="rCliente">Cliente</label>
+            <input type="text" id="rCliente" >
+        </div>
+        <div>
+            <label for="rAduana">Aduana</label>
+            <input type="text" id="rAduana" >
+        </div>
+        <div>
+            <label for="rEstado">Estado</label>
+            <select id="rEstado">
+                <option value="">Todos</option>
+                <option>Pendiente</option>
+                <option>Revisado</option>
+                <option>Aprobado</option>
+            </select>
+        </div>
+    </div>
+    <div class="grid" style="margin-top:14px">
+        <div>
+            <label for="rAgrupar">Agrupar por</label>
+            <select id="rAgrupar">
+                <option value="mes">Mes</option>
+                <option value="cliente">Cliente</option>
+                <option value="aduana">Aduana</option>
+                <option value="estado">Estado</option>
+            </select>
+        </div>
+    </div>
+    <div class="botones izq">
+        <button class="limpiar" id="btnLimpiarReporte">Limpiar filtros</button>
+        <button id="btnCSV">Exportar a Excel (CSV)</button>
+        <button id="btnPDF">Imprimir / PDF</button>
+    </div>
+</div>
+
+<div class="cards">
+    <div class="card"><h2 id="rTotal">0</h2><p>Declaraciones</p></div>
+    <div class="card"><h2 id="rCIF">0</h2><p>Total CIF</p></div>
+    <div class="card"><h2 id="rAprobadas">0</h2><p>Aprobadas</p></div>
+    <div class="card"><h2 id="rPendientes">0</h2><p>Pendientes</p></div>
+</div>
+
+<h2 class="subtitulo" id="tituloAgrupado">Resumen</h2>
+<div class="tabla">
+    <table>
+        <thead>
+            <tr>
+                <th id="thGrupo">Grupo</th>
+                <th>Cantidad</th>
+                <th>Total CIF</th>
+            </tr>
+        </thead>
+        <tbody id="resumen"></tbody>
+    </table>
+</div>
+
+<h2 class="subtitulo">Detalle</h2>
+<div class="tabla">
+    <table>
+        <thead>
+            <tr>
+                <th>Referencia</th>
+                <th>Cliente</th>
+                <th>Aduana</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Registrada por</th>
+                <th>CIF</th>
+            </tr>
+        </thead>
+        <tbody id="detalle"></tbody>
+    </table>
+</div>
+
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+<script src="js/reportes.js"></script>
+</body>
+</html>

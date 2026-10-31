@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartCustoms NI - Iniciar Sesión</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-pagina="login" class="pagina-login">
+
+<div class="login-caja">
+    <img src="img/logo-recortado.png" alt="SmartCustoms NI">
+    <h1>Iniciar Sesión</h1>
+    <p class="login-sub">Del dato al XML en segundos.</p>
+
+    <form id="formLogin" autocomplete="on">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario" autocomplete="username" autofocus>
+
+        <label for="clave">Contraseña</label>
+        <input type="password" id="clave" autocomplete="current-password">
+
+        <p id="errorLogin" class="error-texto"></p>
+
+        <button type="submit" class="btn-ancho">Entrar</button>
+    </form>
+
+    <p class="nota">Primer ingreso: usuario <b>admin</b>, contraseña <b>admin123</b>. Cámbiela desde el menú después de entrar.</p>
+</div>
+
+<script src="js/datos.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
