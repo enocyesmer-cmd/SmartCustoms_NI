@@ -22,5 +22,5 @@ document.getElementById('formLogin').addEventListener('submit', function (e) {
         document.getElementById('clave').value = '';
         return;
     }
-    window.location.href = 'index_nuevo.html';
+    window.location.href = 'index.html';
 });

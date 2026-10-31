@@ -21,7 +21,7 @@ function dibujarMenu() {
     var html = '';
     html += '<div class="logo"><img src="img/logo-recortado.png" alt="SmartCustoms NI"></div>';
     html += '<ul>';
-    html += item('inicio', 'Dashboard', 'index_nuevo.html');
+    html += item('inicio', 'Dashboard', 'index.html');
     html += item('clientes', 'Clientes', 'clientes.html');
     html += item('productos', 'Productos', 'productos.html');
 
