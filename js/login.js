@@ -1,7 +1,7 @@
 // SmartCustoms NI - pagina de login
 
 if (sesionActual()) {
-    window.location.replace('index_nuevo.html');
+    window.location.replace('index.html');
 }
 
 document.getElementById('formLogin').addEventListener('submit', function (e) {

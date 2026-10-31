@@ -159,7 +159,7 @@ function protegerPagina() {
     }
     if (!puedeVerPagina(pagina, s.rol)) {
         window.sinAcceso = true;
-        window.location.replace('index_nuevo.html?sinpermiso=1');
+        window.location.replace('index.html?sinpermiso=1');
     }
 }
 
