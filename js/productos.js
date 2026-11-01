@@ -2,10 +2,12 @@
 
 var productoEditando = null;
 
+// valor de un input sin espacios de mas
 function valorProd(id) {
     return document.getElementById(id).value.trim();
 }
 
+// deja el formulario vacio y sale del modo editar
 function limpiarFormProducto() {
     document.getElementById('pPartida').value = '';
     document.getElementById('pDescripcion').value = '';
@@ -16,6 +18,7 @@ function limpiarFormProducto() {
     productoEditando = null;
 }
 
+// valida partida (8 digitos), origen (2 letras) y guarda
 function guardarProducto() {
     var error = document.getElementById('errorProducto');
     var lista = leerLista(K.productos);
@@ -59,6 +62,7 @@ function guardarProducto() {
     mostrarAviso('Producto guardado');
 }
 
+// pasa los datos del producto al formulario
 function editarProducto(id) {
     var lista = leerLista(K.productos);
     for (var i = 0; i < lista.length; i++) {
@@ -74,6 +78,7 @@ function editarProducto(id) {
     }
 }
 
+// pregunta y elimina
 function borrarProducto(id) {
     if (!confirm('¿Eliminar este producto?')) return;
     var lista = leerLista(K.productos).filter(function (p) { return p.id != id; });
@@ -81,6 +86,7 @@ function borrarProducto(id) {
     mostrarProductos();
 }
 
+// dibuja la tabla aplicando el buscador
 function mostrarProductos() {
     var texto = valorProd('pBuscar').toLowerCase();
     var lista = leerLista(K.productos);
@@ -100,8 +106,8 @@ function mostrarProductos() {
             '<td>' + escaparXML(p.procedimiento || '-') + '</td>' +
             '<td class="acciones">';
         if (puedeModificar) {
-            html += '<button class="editar" onclick="editarProducto(' + p.id + ')">Editar</button>' +
-                '<button class="borrar" onclick="borrarProducto(' + p.id + ')">Eliminar</button>';
+            html += '<button class="editar" onclick="editarProducto(' + p.id + ')">' + icono('edit') + 'Editar</button>' +
+                '<button class="borrar" onclick="borrarProducto(' + p.id + ')">' + icono('trash') + 'Eliminar</button>';
         }
         html += '</td></tr>';
     }

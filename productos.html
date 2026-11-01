@@ -8,13 +8,16 @@
 </head>
 <body data-pagina="productos">
 
-<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
 
+<!-- el menu lo dibuja js/app.js segun el rol -->
 <div class="sidebar" id="menu"></div>
 
 <div class="main">
 
 <div class="header">
+    <i data-ico="package"></i>
     <div>
         <h1>Productos y Partidas Arancelarias</h1>
         <p>Catálogo que se carga en la tabla de mercancías de la declaración</p>
@@ -43,8 +46,8 @@
     </div>
     <p id="errorProducto" class="error-texto"></p>
     <div class="botones izq">
-        <button class="guardar" id="btnGuardarProducto">Guardar producto</button>
-        <button class="limpiar" id="btnLimpiarProducto">Limpiar</button>
+        <button class="guardar" id="btnGuardarProducto"><i data-ico="save"></i>Guardar producto</button>
+        <button class="limpiar" id="btnLimpiarProducto"><i data-ico="filter"></i>Limpiar</button>
     </div>
 </div>
 
@@ -71,6 +74,7 @@
 </div>
 
 <script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
 <script src="js/app.js"></script>
 <script src="js/productos.js"></script>
 </body>

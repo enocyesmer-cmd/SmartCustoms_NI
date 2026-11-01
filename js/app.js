@@ -1,48 +1,51 @@
 // SmartCustoms NI - funciones generales
+// Este archivo se carga en todas las paginas (despues de datos.js).
+// Al final esta el DOMContentLoaded que decide que se ejecuta en cada pagina.
 
-var CLAVE = 'smartcustoms_declaraciones';   
+var CLAVE = 'smartcustoms_declaraciones';   // nombre en localStorage
 var CLAVE_EDITAR = 'smartcustoms_editar';
-var editandoId = null;                     
+var editandoId = null;                     // id de la declaracion que se esta editando
 
+// ---------- menu lateral ----------
 
-
+// arma el menu lateral segun el rol del usuario
 function dibujarMenu() {
     var pagina = document.body.getAttribute('data-pagina');
     var enDecl = (pagina == 'nueva' || pagina == 'buscar');
     var ses = sesionActual();
     var rol = ses.rol;
 
-    
-    function item(clave, texto, enlace) {
+    // devuelve el <li> solo si el rol puede entrar a esa pagina
+    function item(clave, texto, enlace, ico) {
         if (!puedeVerPagina(clave, rol)) return '';
-        return '<li class="' + (pagina == clave ? 'activo' : '') + '"><a href="' + enlace + '">' + texto + '</a></li>';
+        return '<li class="' + (pagina == clave ? 'activo' : '') + '"><a href="' + enlace + '">' + icono(ico) + texto + '</a></li>';
     }
 
     var html = '';
     html += '<div class="logo"><img src="img/logo-recortado.png" alt="SmartCustoms NI"></div>';
     html += '<ul>';
-    html += item('inicio', 'Dashboard', 'index.html');
-    html += item('clientes', 'Clientes', 'clientes.html');
-    html += item('productos', 'Productos', 'productos.html');
+    html += item('inicio', 'Dashboard', 'index.html', 'dashboard');
+    html += item('clientes', 'Clientes', 'clientes.html', 'users');
+    html += item('productos', 'Productos', 'productos.html', 'package');
 
     html += '<li class="' + (enDecl ? 'activo abierto' : '') + '" id="itemDeclaraciones">';
-    html += '<span id="btnDecl">Declaraciones <b class="flecha">&#9660;</b></span>';
+    html += '<span id="btnDecl">' + icono('file-text') + 'Declaraciones <b class="flecha">&#9660;</b></span>';
     html += '<ul id="submenuDeclaraciones" class="submenu' + (enDecl ? ' show' : '') + '">';
-    html += item('nueva', 'Nueva Declaración', 'nueva_declaracion.html');
-    html += item('buscar', 'Buscar Declaración', 'buscar_declaracion.html');
+    html += item('nueva', 'Nueva Declaración', 'nueva_declaracion.html', 'plus');
+    html += item('buscar', 'Buscar Declaración', 'buscar_declaracion.html', 'file-search');
     html += '</ul></li>';
 
-    html += item('reportes', 'Reportes', 'reportes.html');
-    html += '<li><span onclick="mostrarAviso(\'SIDUNEA World: próximamente\')">SIDUNEA World</span></li>';
-    html += '<li><span onclick="mostrarAviso(\'IA Arancelaria: próximamente\')">IA Arancelaria</span></li>';
-    html += item('configuracion', 'Configuración', 'configuracion.html');
+    html += item('reportes', 'Reportes', 'reportes.html', 'chart');
+    html += '<li><span onclick="mostrarAviso(\'SIDUNEA World: próximamente\')">' + icono('globe') + 'SIDUNEA World</span></li>';
+    html += '<li><span onclick="mostrarAviso(\'IA Arancelaria: próximamente\')">' + icono('brain') + 'IA Arancelaria</span></li>';
+    html += item('configuracion', 'Configuración', 'configuracion.html', 'settings');
     html += '</ul>';
 
     html += '<div class="usuario-box">';
     html += '<b>' + escaparXML(ses.nombre) + '</b>';
     html += '<small>' + ses.rol + '</small>';
-    html += '<button id="btnClave" class="btn-claro">Cambiar contraseña</button>';
-    html += '<button id="btnSalirMenu" class="btn-claro">Cerrar sesión</button>';
+    html += '<button id="btnClave" class="btn-claro">' + icono('shield') + 'Cambiar contraseña</button>';
+    html += '<button id="btnSalirMenu" class="btn-claro">' + icono('logout') + 'Cerrar sesión</button>';
     html += '</div>';
 
     document.getElementById('menu').innerHTML = html;
@@ -51,26 +54,31 @@ function dibujarMenu() {
     document.getElementById('btnSalirMenu').onclick = cerrarSesion;
 }
 
+// abre o cierra el submenu de declaraciones
 function toggleMenu() {
     document.getElementById('submenuDeclaraciones').classList.toggle('show');
 }
 
+// ---------- celular ----------
 
-
+// true si el menu del celular esta abierto
 function menuAbierto() {
     return document.getElementById('menu').classList.contains('abierta');
 }
 
+// muestra el menu en pantallas chicas
 function abrirMenuMovil() {
     document.getElementById('menu').classList.add('abierta');
     document.getElementById('fondoMenu').classList.add('visible');
 }
 
+// lo esconde otra vez
 function cerrarMenuMovil() {
     document.getElementById('menu').classList.remove('abierta');
     document.getElementById('fondoMenu').classList.remove('visible');
 }
 
+// eventos del menu para celular: boton, fondo oscuro, escape y cambio de tamano
 function prepararMovil() {
     var fondo = document.createElement('div');
     fondo.id = 'fondoMenu';
@@ -98,7 +106,7 @@ function prepararMovil() {
     });
 }
 
-
+// pone data-label en cada celda para que la tabla se vea como fichas en el celular
 function etiquetarTablas() {
     var tablas = document.querySelectorAll('table');
     for (var t = 0; t < tablas.length; t++) {
@@ -116,8 +124,9 @@ function etiquetarTablas() {
     }
 }
 
+// ---------- utilidades ----------
 
-
+// mensajito que sale abajo a la derecha y se quita solo
 function mostrarAviso(texto) {
     var aviso = document.getElementById('aviso');
     if (!aviso) {
@@ -134,6 +143,7 @@ function mostrarAviso(texto) {
     }, 2800);
 }
 
+// trae las declaraciones guardadas, si algo falla devuelve lista vacia
 function leerDeclaraciones() {
     try {
         return JSON.parse(localStorage.getItem(CLAVE)) || [];
@@ -142,10 +152,12 @@ function leerDeclaraciones() {
     }
 }
 
+// guarda la lista completa en localStorage
 function guardarDeclaraciones(lista) {
     localStorage.setItem(CLAVE, JSON.stringify(lista));
 }
 
+// fecha de hoy como dd/mm/yyyy
 function fechaHoy() {
     var d = new Date();
     var dia = ('0' + d.getDate()).slice(-2);
@@ -153,17 +165,20 @@ function fechaHoy() {
     return dia + '/' + mes + '/' + d.getFullYear();
 }
 
+// quita tildes y simbolos para usar el texto como etiqueta xml
 function limpiarTexto(t) {
     // para nombres de etiquetas xml: sin tildes ni espacios
     return t.normalize('NFD').replace(/[̀-ͯ]/g, '')
         .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 }
 
+// cambia & < > y comillas para que no rompan el xml
 function escaparXML(t) {
     return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;')
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// crea el archivo en memoria y lo baja con un link falso
 function descargar(nombre, contenido) {
     var blob = new Blob([contenido], { type: 'application/xml' });
     var enlace = document.createElement('a');
@@ -195,7 +210,7 @@ function mostrarVentana(titulo, filas) {
     fondo.classList.add('visible');
 }
 
-
+// ventana para cambiar la contraseña del usuario que esta dentro
 function cambiarClave() {
     var fondo = document.getElementById('modalFondo');
     if (!fondo) {
@@ -239,20 +254,22 @@ function cambiarClave() {
     };
 }
 
+// suma 1 al contador de xml generados
 function sumarXML() {
     var n = parseInt(localStorage.getItem(K.xml)) || 0;
     localStorage.setItem(K.xml, n + 1);
 }
 
+// ---------- nueva declaracion ----------
 
-
+// lee un input y lo devuelve como numero (0 si esta vacio)
 function numero(id) {
     var campo = document.getElementById(id);
     if (!campo) return 0;
     return parseFloat(campo.value) || 0;
 }
 
-
+// Total CIF = factura + fletes + seguro + otros gastos - deducciones
 function calcularCIF() {
     var total = numero('valorFactura') + numero('fleteInternacional') +
         numero('fleteNacional') + numero('seguro') +
@@ -260,17 +277,19 @@ function calcularCIF() {
     document.getElementById('totalCIF').value = total.toFixed(2);
 }
 
+// celda con el boton Quitar de cada mercancia
 function filaQuitar() {
-    
+    // celda con el boton para quitar una mercancia
     var td = document.createElement('td');
     td.setAttribute('data-label', 'Acción');
-    td.innerHTML = '<button class="quitar" type="button">Quitar</button>';
+    td.innerHTML = '<button class="quitar" type="button">' + icono('trash') + 'Quitar</button>';
     td.firstChild.onclick = function () {
         quitarMercancia(this.parentNode.parentNode);
     };
     return td;
 }
 
+// agrega la columna Accion a la tabla de mercancias
 function prepararMercancias() {
     var cuerpo = document.getElementById('cuerpoMercancias');
     var encabezado = cuerpo.parentNode.querySelector('thead tr');
@@ -283,6 +302,7 @@ function prepararMercancias() {
     }
 }
 
+// copia la primera fila, la deja vacia y la agrega al final
 function agregarMercancia() {
     var cuerpo = document.getElementById('cuerpoMercancias');
     var fila = cuerpo.rows[0].cloneNode(true);
@@ -292,12 +312,14 @@ function agregarMercancia() {
         campos[i].value = '';
         campos[i].removeAttribute('placeholder');
     }
-    
+    // el clon trae su boton sin evento, se cambia por uno nuevo
     fila.removeChild(fila.lastChild);
     fila.appendChild(filaQuitar());
+    fila.classList.add('fila-nueva');   // para la animacion de entrada
     cuerpo.appendChild(fila);
 }
 
+// borra la fila pero siempre deja al menos una
 function quitarMercancia(fila) {
     var cuerpo = document.getElementById('cuerpoMercancias');
     if (cuerpo.rows.length == 1) {
@@ -307,7 +329,7 @@ function quitarMercancia(fila) {
     cuerpo.removeChild(fila);
 }
 
-
+// recorre los campos de las secciones y devuelve {etiqueta: valor}
 function leerCampos() {
     var datos = {};
     var tarjetas = document.querySelectorAll('.form-card');
@@ -324,6 +346,7 @@ function leerCampos() {
     return datos;
 }
 
+// lee la tabla de documentos adjuntos
 function leerDocumentos() {
     var lista = [];
     var tabla = document.querySelectorAll('.form-card table')[0];
@@ -340,6 +363,7 @@ function leerDocumentos() {
     return lista;
 }
 
+// lee todas las filas de la tabla de mercancias
 function leerMercancias() {
     var lista = [];
     var cuerpo = document.getElementById('cuerpoMercancias');
@@ -354,6 +378,7 @@ function leerMercancias() {
     return lista;
 }
 
+// junta todo el formulario en un solo objeto para guardarlo
 function armarRegistro() {
     var campos = leerCampos();
     var docs = leerDocumentos();
@@ -398,6 +423,7 @@ function validar() {
     return ok;
 }
 
+// guarda una nueva, o actualiza si venimos de editar
 function guardarDeclaracion() {
     if (!validar()) return;
 
@@ -426,6 +452,7 @@ function guardarDeclaracion() {
     mostrarAviso('Declaración ' + registro.referencia + ' guardada');
 }
 
+// arma el texto del xml con los datos del registro
 function construirXML(registro, tipo) {
     var xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<Declaracion tipo="' + tipo + '">\n';
@@ -461,6 +488,7 @@ function construirXML(registro, tipo) {
     return xml;
 }
 
+// valida, arma el xml y lo descarga
 function generarXML(tipo) {
     if (!validar()) return;
     var registro = armarRegistro();
@@ -590,6 +618,7 @@ function prepararProductos() {
     });
 }
 
+// lo que se hace al abrir la pagina de nueva declaracion
 function iniciarNueva() {
     var camposValor = document.querySelectorAll('.calc-cif');
     for (var i = 0; i < camposValor.length; i++) {
@@ -607,14 +636,16 @@ function iniciarNueva() {
     cargarParaEditar();
 }
 
+// ---------- buscar declaraciones ----------
 
-
+// de dd/mm/yyyy a yyyy-mm-dd para poder comparar fechas
 function convertirFecha(texto) {
     // la tabla trae dd/mm/yyyy, el input date trae yyyy-mm-dd
     var p = texto.split('/');
     return p[2] + '-' + p[1] + '-' + p[0];
 }
 
+// busca una declaracion guardada por su id
 function buscarRegistro(id) {
     var lista = leerDeclaraciones();
     for (var i = 0; i < lista.length; i++) {
@@ -623,6 +654,7 @@ function buscarRegistro(id) {
     return null;
 }
 
+// arma una fila de la tabla de resultados
 function crearFila(reg) {
     var tr = document.createElement('tr');
     tr.setAttribute('data-fila', '');
@@ -657,6 +689,7 @@ function datosDeFila(tr) {
     };
 }
 
+// muestra el detalle de la fila en una ventana
 function verDeclaracion(tr) {
     var d = datosDeFila(tr);
     var filas = [
@@ -676,6 +709,7 @@ function verDeclaracion(tr) {
     mostrarVentana('Declaración ' + d.referencia, filas);
 }
 
+// baja el xml de una fila (guardada o de ejemplo)
 function xmlDeFila(tr) {
     var reg = buscarRegistro(tr.getAttribute('data-id'));
 
@@ -703,6 +737,7 @@ function puedeEditarRegistro(reg) {
     return ses.rol == 'declarante' && reg.usuario == ses.usuario && reg.estado == 'Pendiente';
 }
 
+// pasa al siguiente estado: Pendiente > Revisado > Aprobado > Pendiente
 function cambiarEstado(tr) {
     var id = tr.getAttribute('data-id');
     var lista = leerDeclaraciones();
@@ -720,10 +755,28 @@ function cambiarEstado(tr) {
         }
     }
     guardarDeclaraciones(lista);
+    decorarEstados();
     etiquetarTablas();
     buscarDeclaraciones();
 }
 
+// icono de cada boton de las filas (segun su clase)
+var ICONO_BOTON = { ver: 'eye', editar: 'edit', 'estado-btn': 'check-circle', xml: 'download', borrar: 'trash' };
+
+// icono de cada estado
+var ICONO_ESTADO = { pendiente: 'clock', revisado: 'eye', aprobado: 'check-circle' };
+
+// le pone su icono a las etiquetas de estado que todavia no lo tengan
+function decorarEstados() {
+    var etiquetas = document.querySelectorAll('.estado');
+    for (var i = 0; i < etiquetas.length; i++) {
+        if (etiquetas[i].querySelector('svg')) continue;
+        var clase = etiquetas[i].className.replace('estado', '').trim();
+        etiquetas[i].insertAdjacentHTML('afterbegin', icono(ICONO_ESTADO[clase], 'ico-chico'));
+    }
+}
+
+// pone los botones de cada fila segun el rol de quien entro
 function ponerAcciones(tr) {
     var celda = tr.querySelector('.acciones');
     var reg = buscarRegistro(tr.getAttribute('data-id'));
@@ -732,7 +785,7 @@ function ponerAcciones(tr) {
 
     function boton(texto, clase, fn) {
         var b = document.createElement('button');
-        b.textContent = texto;
+        b.innerHTML = icono(ICONO_BOTON[clase]) + texto;
         b.className = clase;
         b.onclick = fn;
         celda.appendChild(b);
@@ -756,6 +809,7 @@ function ponerAcciones(tr) {
     }
 }
 
+// pregunta y borra la declaracion
 function eliminarDeclaracion(tr) {
     if (!confirm('¿Eliminar la declaración ' + tr.cells[1].textContent + '?')) return;
     var id = tr.getAttribute('data-id');
@@ -765,6 +819,7 @@ function eliminarDeclaracion(tr) {
     buscarDeclaraciones();
 }
 
+// lo que se hace al abrir la pagina de buscar
 function iniciarBusqueda() {
     var cuerpo = document.getElementById('resultados');
     var sinDatos = document.getElementById('sinDatos');
@@ -792,8 +847,10 @@ function iniciarBusqueda() {
         document.getElementById(ids[k]).addEventListener('input', buscarDeclaraciones);
     }
     sinDatos.style.display = 'none';
+    decorarEstados();
 }
 
+// esconde las filas que no cumplen los filtros
 function buscarDeclaraciones() {
     var ref = document.getElementById('fRef').value.toLowerCase();
     var fac = document.getElementById('fFactura').value.toLowerCase();
@@ -821,6 +878,7 @@ function buscarDeclaraciones() {
     document.getElementById('sinDatos').style.display = visibles == 0 ? '' : 'none';
 }
 
+// vacia los filtros y vuelve a mostrar todo
 function limpiarFiltros() {
     var ids = ['fRef', 'fFactura', 'fCliente', 'fDesde', 'fHasta'];
     for (var i = 0; i < ids.length; i++) {
@@ -829,7 +887,40 @@ function limpiarFiltros() {
     buscarDeclaraciones();
 }
 
+// ---------- dashboard ----------
 
+// cuenta desde 0 hasta el numero que tenga la tarjeta
+function contarHasta(el) {
+    var texto = el.textContent;
+    var meta = parseFloat(texto);
+    var sufijo = texto.indexOf('%') != -1 ? '%' : '';
+    var duracion = 900;
+    var inicio = null;
+
+    if (isNaN(meta) || meta == 0) return;
+
+    function paso(ahora) {
+        if (inicio === null) inicio = ahora;
+        var avance = Math.min((ahora - inicio) / duracion, 1);
+        var suave = 1 - Math.pow(1 - avance, 3);   // empieza rapido y frena al final
+        el.textContent = Math.round(meta * suave) + sufijo;
+        if (avance < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+}
+
+// anima los numeros de las tarjetas del dashboard
+function animarContadores() {
+    // si la persona tiene desactivadas las animaciones en su sistema, no se anima
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var tarjetas = document.querySelectorAll('.cards .card h2');
+    for (var i = 0; i < tarjetas.length; i++) {
+        contarHasta(tarjetas[i]);
+    }
+}
+
+// llena los numeros y el saludo del dashboard
 function iniciarInicio() {
     var ses = sesionActual();
     var lista = leerDeclaraciones();
@@ -858,9 +949,11 @@ function iniciarInicio() {
     if (window.location.search.indexOf('sinpermiso') != -1) {
         mostrarAviso('No tiene permiso para entrar a esa página');
     }
+
+    animarContadores();
 }
 
-
+// ---------- al cargar la pagina ----------
 
 document.addEventListener('DOMContentLoaded', function () {
     if (window.sinAcceso) return;   // ya lo mando al login
@@ -868,6 +961,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var pagina = document.body.getAttribute('data-pagina');
 
     dibujarMenu();
+    pintarIconos();    // iconos que estan escritos en el html como <i data-ico>
     prepararMovil();
 
     if (pagina == 'nueva') iniciarNueva();

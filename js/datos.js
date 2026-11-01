@@ -1,5 +1,6 @@
 // SmartCustoms NI - datos, sesion y permisos
-
+// OJO: todo se guarda en el navegador (localStorage). Sirve para practicar,
+// pero no es seguridad real: para eso se necesita un servidor.
 
 var K = {
     usuarios: 'sc_usuarios',
@@ -24,8 +25,9 @@ var PERMISOS = {
     configuracion: ['administrador']
 };
 
+// ---------- lectura y escritura ----------
 
-
+// lee una lista de localStorage, si no hay nada devuelve []
 function leerLista(clave) {
     try {
         return JSON.parse(localStorage.getItem(clave)) || [];
@@ -34,10 +36,12 @@ function leerLista(clave) {
     }
 }
 
+// guarda una lista en localStorage
 function guardarLista(clave, lista) {
     localStorage.setItem(clave, JSON.stringify(lista));
 }
 
+// lee los datos del declarante
 function leerConfig() {
     try {
         return JSON.parse(localStorage.getItem(K.config)) || {};
@@ -46,15 +50,17 @@ function leerConfig() {
     }
 }
 
+// guarda los datos del declarante
 function guardarConfig(obj) {
     localStorage.setItem(K.config, JSON.stringify(obj));
 }
 
+// id unico con la hora mas un numero al azar
 function nuevoId() {
     return Date.now() + Math.floor(Math.random() * 1000);
 }
 
-
+// ---------- claves ----------
 
 // hash sencillo (cyrb53) con un texto fijo. No es de nivel produccion.
 function hashClave(texto) {
@@ -86,8 +92,9 @@ function crearUsuarioInicial() {
     }
 }
 
+// ---------- sesion ----------
 
-
+// devuelve el usuario que esta dentro, o null
 function sesionActual() {
     try {
         return JSON.parse(sessionStorage.getItem(K.sesion));
@@ -113,11 +120,13 @@ function iniciarSesion(usuario, clave) {
     return 'Usuario o contraseña incorrectos';
 }
 
+// borra la sesion y manda al login
 function cerrarSesion() {
     sessionStorage.removeItem(K.sesion);
     window.location.href = 'login.html';
 }
 
+// mira en PERMISOS si el rol puede entrar a esa pagina
 function puedeVerPagina(pagina, rol) {
     var roles = PERMISOS[pagina];
     return roles ? roles.indexOf(rol) != -1 : false;
@@ -140,7 +149,7 @@ function protegerPagina() {
         window.location.replace('login.html');
         return;
     }
-    // el usuario pudo ser borrado o desactivado
+    // el usuario pudo ser borrado o desactivado mientras tenia la sesion abierta
     var lista = leerLista(K.usuarios);
     var existe = false;
     for (var i = 0; i < lista.length; i++) {
@@ -163,4 +172,5 @@ function protegerPagina() {
     }
 }
 
+// se llama aqui mismo, antes de que la pagina termine de cargar
 protegerPagina();

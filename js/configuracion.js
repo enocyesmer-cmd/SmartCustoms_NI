@@ -1,5 +1,6 @@
 // SmartCustoms NI - configuracion (solo administrador)
 
+// guarda los datos que se llenan solos al declarar
 function guardarDatosDeclarante() {
     guardarConfig({
         empresa: document.getElementById('cfEmpresa').value.trim(),
@@ -9,8 +10,9 @@ function guardarDatosDeclarante() {
     mostrarAviso('Datos guardados');
 }
 
+// ---------- usuarios ----------
 
-
+// cuenta administradores activos (siempre debe quedar uno)
 function cuantosAdminActivos(lista) {
     var n = 0;
     for (var i = 0; i < lista.length; i++) {
@@ -19,6 +21,7 @@ function cuantosAdminActivos(lista) {
     return n;
 }
 
+// valida y agrega un usuario nuevo
 function crearUsuario() {
     var error = document.getElementById('errorUsuario');
     var usuario = document.getElementById('uUsuario').value.trim();
@@ -48,6 +51,7 @@ function crearUsuario() {
     mostrarAviso('Usuario creado');
 }
 
+// busca un usuario por id dentro de la lista
 function buscarUsuario(lista, id) {
     for (var i = 0; i < lista.length; i++) {
         if (lista[i].id == id) return lista[i];
@@ -55,6 +59,7 @@ function buscarUsuario(lista, id) {
     return null;
 }
 
+// cambia el rol, sin dejar el sistema sin administrador
 function cambiarRolUsuario(id, rol) {
     var lista = leerLista(K.usuarios);
     var u = buscarUsuario(lista, id);
@@ -68,6 +73,7 @@ function cambiarRolUsuario(id, rol) {
     mostrarAviso('Rol actualizado');
 }
 
+// activa o desactiva a un usuario
 function activarUsuario(id) {
     var lista = leerLista(K.usuarios);
     var u = buscarUsuario(lista, id);
@@ -84,6 +90,7 @@ function activarUsuario(id) {
     mostrarUsuarios();
 }
 
+// el admin le pone una clave nueva a otro usuario
 function restablecerClave(id) {
     var lista = leerLista(K.usuarios);
     var u = buscarUsuario(lista, id);
@@ -95,6 +102,7 @@ function restablecerClave(id) {
     mostrarAviso('Contraseña restablecida');
 }
 
+// elimina un usuario (no a uno mismo)
 function borrarUsuario(id) {
     var lista = leerLista(K.usuarios);
     var u = buscarUsuario(lista, id);
@@ -108,6 +116,7 @@ function borrarUsuario(id) {
     mostrarUsuarios();
 }
 
+// dibuja la tabla de usuarios
 function mostrarUsuarios() {
     var lista = leerLista(K.usuarios);
     var html = '';
@@ -125,17 +134,18 @@ function mostrarUsuarios() {
             '<td><select onchange="cambiarRolUsuario(' + u.id + ', this.value)">' + opciones + '</select></td>' +
             '<td>' + (u.activo ? 'Activo' : 'Desactivado') + '</td>' +
             '<td class="acciones">' +
-            '<button class="editar" onclick="restablecerClave(' + u.id + ')">Clave</button>' +
+            '<button class="editar" onclick="restablecerClave(' + u.id + ')">' + icono('shield') + 'Clave</button>' +
             '<button class="estado-btn" onclick="activarUsuario(' + u.id + ')">' + (u.activo ? 'Desactivar' : 'Activar') + '</button>' +
-            '<button class="borrar" onclick="borrarUsuario(' + u.id + ')">Eliminar</button>' +
+            '<button class="borrar" onclick="borrarUsuario(' + u.id + ')">' + icono('trash') + 'Eliminar</button>' +
             '</td></tr>';
     }
     document.getElementById('listaUsuarios').innerHTML = html;
     etiquetarTablas();
 }
 
+// ---------- respaldo ----------
 
-
+// baja todos los datos en un json
 function exportarRespaldo() {
     var copia = {
         fecha: new Date().toISOString(),
@@ -155,6 +165,7 @@ function exportarRespaldo() {
     document.body.removeChild(a);
 }
 
+// lee un json de respaldo y reemplaza los datos
 function importarRespaldo(archivo) {
     var lector = new FileReader();
     lector.onload = function () {
@@ -178,6 +189,7 @@ function importarRespaldo(archivo) {
     lector.readAsText(archivo);
 }
 
+// borra declaraciones, clientes y productos (los usuarios se quedan)
 function borrarDatos() {
     if (!confirm('Se borrarán todas las declaraciones, clientes y productos. Los usuarios se mantienen. ¿Continuar?')) return;
     localStorage.removeItem(K.declaraciones);

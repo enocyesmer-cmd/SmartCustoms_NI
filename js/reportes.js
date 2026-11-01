@@ -1,21 +1,25 @@
-
+// SmartCustoms NI - reportes
 
 var filasReporte = [];   // declaraciones que pasan los filtros
 
+// total CIF de una declaracion como numero
 function cifDe(reg) {
     return parseFloat(reg.campos['Total CIF']) || 0;
 }
 
+// de dd/mm/yyyy a yyyy-mm
 function mesDe(fecha) {
     // dd/mm/yyyy -> yyyy-mm
     var p = fecha.split('/');
     return p[2] + '-' + p[1];
 }
 
+// formatea con comas y 2 decimales
 function dinero(n) {
     return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+// devuelve solo las declaraciones que cumplen los filtros
 function filtrarReporte() {
     var desde = document.getElementById('rDesde').value;
     var hasta = document.getElementById('rHasta').value;
@@ -40,6 +44,7 @@ function filtrarReporte() {
     return salida;
 }
 
+// dice en que grupo cae una declaracion segun el agrupar por
 function claveGrupo(reg, tipo) {
     if (tipo == 'mes') return mesDe(reg.fecha);
     if (tipo == 'cliente') return reg.cliente || '(sin cliente)';
@@ -47,6 +52,7 @@ function claveGrupo(reg, tipo) {
     return reg.estado;
 }
 
+// calcula totales y llena las tarjetas y las dos tablas
 function dibujarReporte() {
     filasReporte = filtrarReporte();
     var tipo = document.getElementById('rAgrupar').value;
@@ -98,6 +104,7 @@ function dibujarReporte() {
     etiquetarTablas();
 }
 
+// pone comillas y escapa las comillas dobles
 function celdaCSV(t) {
     return '"' + String(t).replace(/"/g, '""') + '"';
 }
@@ -122,6 +129,7 @@ function exportarCSV() {
     document.body.removeChild(a);
 }
 
+// vacia los filtros y vuelve a dibujar
 function limpiarFiltrosReporte() {
     var ids = ['rDesde', 'rHasta', 'rCliente', 'rAduana', 'rEstado'];
     for (var i = 0; i < ids.length; i++) document.getElementById(ids[i]).value = '';

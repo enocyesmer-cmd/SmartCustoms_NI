@@ -1,6 +1,7 @@
-
+/* SmartCustoms NI - estilos generales */
 
 :root {
+    /* paleta: para cambiar colores se toca solo aqui */
     --azul: #0b3d91;
     --azul-oscuro: #082c6c;
     --azul-claro: #e8eef8;
@@ -23,9 +24,10 @@ body {
     color: var(--texto);
 }
 
-
+/* ---------- menu lateral ---------- */
 
 .sidebar {
+    /* menu fijo a la izquierda */
     position: fixed;
     left: 0;
     top: 0;
@@ -100,7 +102,9 @@ body {
     display: block;
 }
 
+/* boton del menu, solo se ve en celular (ver media query) */
 .btn-menu {
+    /* solo se ve en celular (ver media query de abajo) */
     display: none;
     position: fixed;
     top: 10px;
@@ -115,7 +119,9 @@ body {
     font-weight: bold;
 }
 
+/* capa oscura detras del menu en celular */
 .fondo-menu {
+    /* capa oscura detras del menu en celular */
     display: none;
     position: fixed;
     inset: 0;
@@ -127,9 +133,10 @@ body {
     display: block;
 }
 
-
+/* ---------- contenido ---------- */
 
 .main {
+    /* deja libre el espacio del menu */
     margin-left: 240px;
     padding: 20px;
 }
@@ -175,7 +182,9 @@ body {
     font-size: 15px;
 }
 
+/* las 4 tarjetas del dashboard */
 .cards {
+    /* las 4 tarjetas del dashboard */
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
@@ -221,7 +230,7 @@ body {
     font-size: 13px;
 }
 
-
+/* ---------- encabezado de pagina ---------- */
 
 .header {
     background: var(--azul);
@@ -239,7 +248,7 @@ body {
     font-size: 14px;
 }
 
-
+/* ---------- formularios ---------- */
 
 .form-card {
     background: white;
@@ -257,6 +266,7 @@ body {
     font-size: 18px;
 }
 
+/* campos del formulario en 3 columnas (baja a 2 y a 1 en pantallas chicas) */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -302,7 +312,7 @@ input.error {
     background: #fdf0f0;
 }
 
-
+/* ---------- tablas ---------- */
 
 .tabla-scroll {
     overflow-x: auto;
@@ -356,7 +366,7 @@ table td input {
     padding: 20px !important;
 }
 
-
+/* ---------- botones ---------- */
 
 button {
     border: none;
@@ -472,6 +482,7 @@ button:hover {
 
 /* mensaje emergente */
 .aviso {
+    /* mensajito de abajo, empieza escondido */
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -495,6 +506,7 @@ button:hover {
 
 /* ventana de detalle */
 .modal-fondo {
+    /* fondo oscuro de las ventanas emergentes */
     display: none;
     position: fixed;
     inset: 0;
@@ -539,7 +551,7 @@ button:hover {
     text-align: right;
 }
 
-
+/* ---------- tablet ---------- */
 
 @media (max-width: 1000px) {
     .cards {
@@ -552,7 +564,7 @@ button:hover {
     }
 }
 
-
+/* ---------- celular ---------- */
 
 @media (max-width: 800px) {
     .sidebar {
@@ -657,7 +669,7 @@ button:hover {
     }
 }
 
-
+/* ---------- login, usuario y paginas nuevas ---------- */
 
 .pagina-login {
     min-height: 100vh;
@@ -718,6 +730,7 @@ button:hover {
     margin-top: 12px;
 }
 
+/* nombre y botones de sesion al final del menu */
 .usuario-box {
     margin: 16px 14px;
     padding: 12px;
@@ -804,4 +817,324 @@ button:hover {
         background: #ddd;
         color: black;
     }
+}
+
+
+/* ---------- animaciones ---------- */
+/* todas son cortas y suaves; al final hay un bloque para quien las tenga desactivadas */
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes desplegar {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes entrar-modal {
+    from { opacity: 0; transform: translateY(14px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes fundido {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes resaltar {
+    from { background: #d9e6fb; }
+    to   { background: transparent; }
+}
+
+/* entrada de la pagina */
+.main {
+    animation: aparecer .4s ease-out;
+}
+
+.header,
+.banner,
+.topbar {
+    animation: aparecer .45s ease-out backwards;
+}
+
+/* tarjetas y secciones van entrando una detras de otra
+   (se usa "backwards" para que el hover siga funcionando despues) */
+.cards .card,
+.form-card,
+.filtros,
+.panel,
+.tabla {
+    animation: aparecer .5s ease-out backwards;
+}
+
+.cards .card:nth-child(1) { animation-delay: .05s; }
+.cards .card:nth-child(2) { animation-delay: .12s; }
+.cards .card:nth-child(3) { animation-delay: .19s; }
+.cards .card:nth-child(4) { animation-delay: .26s; }
+
+.form-card:nth-of-type(2) { animation-delay: .05s; }
+.form-card:nth-of-type(3) { animation-delay: .1s; }
+.form-card:nth-of-type(4) { animation-delay: .15s; }
+.form-card:nth-of-type(5) { animation-delay: .2s; }
+
+/* tarjetas del dashboard */
+.cards .card {
+    transition: transform .2s, border-color .2s;
+}
+
+.cards .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--azul);
+}
+
+/* menu lateral */
+.sidebar li > a,
+.sidebar li > span {
+    transition: background .2s, padding-left .2s;
+}
+
+.sidebar li > a:hover,
+.sidebar li > span:hover {
+    padding-left: 26px;
+}
+
+.submenu a:hover {
+    padding-left: 42px !important;
+}
+
+.submenu.show {
+    animation: desplegar .25s ease-out;
+}
+
+.flecha {
+    transition: transform .25s;
+}
+
+/* la flecha gira cuando el submenu esta abierto */
+#itemDeclaraciones:has(.submenu.show) .flecha {
+    transform: rotate(180deg);
+}
+
+/* botones */
+button {
+    transition: background .2s, transform .1s, box-shadow .2s;
+}
+
+button:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .18);
+}
+
+button:active {
+    transform: translateY(1px) scale(.98);
+    box-shadow: none;
+}
+
+/* campos */
+input,
+select {
+    transition: border-color .2s, box-shadow .2s;
+}
+
+/* tablas */
+.tabla tbody tr {
+    transition: background .15s;
+    animation: aparecer .4s ease-out backwards;
+}
+
+.tabla tbody tr:nth-child(2) { animation-delay: .04s; }
+.tabla tbody tr:nth-child(3) { animation-delay: .08s; }
+.tabla tbody tr:nth-child(4) { animation-delay: .12s; }
+.tabla tbody tr:nth-child(5) { animation-delay: .16s; }
+.tabla tbody tr:nth-child(6) { animation-delay: .2s; }
+
+/* mercancia recien agregada */
+tr.fila-nueva {
+    animation: resaltar 1.2s ease-out;
+}
+
+/* ventanas y capas */
+.modal-fondo.visible {
+    animation: fundido .2s ease-out;
+}
+
+.modal-fondo.visible .modal {
+    animation: entrar-modal .25s ease-out;
+}
+
+.fondo-menu.visible {
+    animation: fundido .25s ease-out;
+}
+
+/* login */
+.login-caja {
+    animation: entrar-modal .5s ease-out;
+}
+
+.login-caja img {
+    animation: fundido .8s ease-out .15s backwards;
+}
+
+/* error del login se mueve un poquito para llamar la atencion */
+@keyframes sacudir {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.error-texto:not(:empty) {
+    animation: sacudir .3s;
+}
+
+/* si el sistema del usuario pide menos movimiento, se apagan */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ---------- iconos ---------- */
+
+/* el icono toma el color del texto donde este (currentColor) */
+.ico {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.ico-chico {
+    width: 13px;
+    height: 13px;
+}
+
+/* botones: icono y texto en linea */
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.acciones button {
+    gap: 5px;
+}
+
+.acciones .ico,
+.quitar .ico {
+    width: 15px;
+    height: 15px;
+}
+
+.estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* menu lateral: icono a la izquierda de cada opcion */
+.sidebar li > a,
+.sidebar li > span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar li > a .ico,
+.sidebar li > span .ico {
+    opacity: .85;
+    transition: transform .2s, opacity .2s;
+}
+
+.sidebar li > a:hover .ico,
+.sidebar li > span:hover .ico {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+.sidebar .flecha {
+    float: none;
+    margin: 0 0 0 auto;
+    font-size: 11px;
+}
+
+.submenu .ico {
+    width: 16px;
+    height: 16px;
+}
+
+/* encabezado de cada pagina con su icono */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header > .ico {
+    width: 34px;
+    height: 34px;
+    padding: 7px;
+    box-sizing: content-box;
+    background: rgba(255, 255, 255, .15);
+    border-radius: 8px;
+}
+
+/* titulos de las secciones del formulario */
+.form-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.form-card h2 .ico {
+    width: 22px;
+    height: 22px;
+}
+
+/* tarjetas con numeros */
+.card-ico {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 10px;
+    border-radius: 8px;
+    background: var(--azul-claro);
+    color: var(--azul);
+    transition: background .2s, color .2s, transform .2s;
+}
+
+.card-ico .ico {
+    width: 22px;
+    height: 22px;
+}
+
+.card:hover .card-ico {
+    background: var(--azul);
+    color: white;
+    transform: rotate(-6deg) scale(1.05);
+}
+
+.btn-menu {
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .btn-menu {
+        display: inline-flex;
+    }
+}
+
+.fondo-menu:not(.visible) {
+    display: none;
+}
+
+/* botones del menu (cambiar contraseña / cerrar sesion) con icono */
+.btn-claro {
+    display: flex;
+    width: 100%;
 }

@@ -8,18 +8,21 @@
 </head>
 <body data-pagina="inicio">
 
-<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
 
+<!-- el menu lo dibuja js/app.js segun el rol -->
 <div class="sidebar" id="menu"></div>
 
 <div class="main">
 
+<!-- barra de arriba -->
 <div class="topbar">
     <div>
         <h1 class="titulo">SMARTCUSTOMS NI</h1>
         <p>Gestión Aduanera Inteligente</p>
     </div>
-    <button class="login-btn" id="btnSalir">Cerrar Sesión</button>
+    <button class="login-btn" id="btnSalir"><i data-ico="logout"></i>Cerrar Sesión</button>
 </div>
 
 <div class="banner">
@@ -27,11 +30,12 @@
     <p>Sistema inteligente para elaboración de declaraciones aduaneras compatibles con SIDUNEA World.</p>
 </div>
 
+<!-- los numeros se llenan desde js/app.js (iniciarInicio) -->
 <div class="cards">
-    <div class="card"><h2 id="statHoy">0</h2><p>Declaraciones Hoy</p></div>
-    <div class="card"><h2 id="statXml">0</h2><p>XML Generados</p></div>
-    <div class="card"><h2 id="statClientes">0</h2><p>Clientes Activos</p></div>
-    <div class="card"><h2 id="statAprobadas">0%</h2><p>Aprobadas</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="file-text"></i></span><h2 id="statHoy">0</h2><p>Declaraciones Hoy</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="download"></i></span><h2 id="statXml">0</h2><p>XML Generados</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="users"></i></span><h2 id="statClientes">0</h2><p>Clientes Activos</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="check-circle"></i></span><h2 id="statAprobadas">0%</h2><p>Aprobadas</p></div>
 </div>
 
 <div class="panel">
@@ -45,6 +49,7 @@
 </div>
 
 <script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

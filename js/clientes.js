@@ -1,12 +1,14 @@
-
+// SmartCustoms NI - clientes
 
 var clienteEditando = null;
 var CAMPOS_CLIENTE = ['cCodigo', 'cNombre', 'cTipo', 'cRuc', 'cTelefono', 'cCorreo', 'cDireccion'];
 
+// valor de un input sin espacios de mas
 function valorCampo(id) {
     return document.getElementById(id).value.trim();
 }
 
+// deja el formulario vacio y sale del modo editar
 function limpiarFormCliente() {
     for (var i = 0; i < CAMPOS_CLIENTE.length; i++) {
         document.getElementById(CAMPOS_CLIENTE[i]).value = '';
@@ -17,6 +19,7 @@ function limpiarFormCliente() {
     clienteEditando = null;
 }
 
+// valida y guarda (nuevo o editado)
 function guardarCliente() {
     var error = document.getElementById('errorCliente');
     var lista = leerLista(K.clientes);
@@ -59,6 +62,7 @@ function guardarCliente() {
     mostrarAviso('Cliente guardado');
 }
 
+// pasa los datos del cliente al formulario
 function editarCliente(id) {
     var lista = leerLista(K.clientes);
     for (var i = 0; i < lista.length; i++) {
@@ -78,6 +82,7 @@ function editarCliente(id) {
     }
 }
 
+// pregunta y elimina
 function borrarCliente(id) {
     if (!confirm('¿Eliminar este cliente?')) return;
     var lista = leerLista(K.clientes).filter(function (c) { return c.id != id; });
@@ -85,6 +90,7 @@ function borrarCliente(id) {
     mostrarClientes();
 }
 
+// dibuja la tabla aplicando el buscador
 function mostrarClientes() {
     var texto = valorCampo('cBuscar').toLowerCase();
     var cuerpo = document.getElementById('listaClientes');
@@ -108,8 +114,8 @@ function mostrarClientes() {
             '<td>' + escaparXML(c.correo || '-') + '</td>' +
             '<td class="acciones">';
         if (puedeModificar) {
-            html += '<button class="editar" onclick="editarCliente(' + c.id + ')">Editar</button>' +
-                '<button class="borrar" onclick="borrarCliente(' + c.id + ')">Eliminar</button>';
+            html += '<button class="editar" onclick="editarCliente(' + c.id + ')">' + icono('edit') + 'Editar</button>' +
+                '<button class="borrar" onclick="borrarCliente(' + c.id + ')">' + icono('trash') + 'Eliminar</button>';
         }
         html += '</td></tr>';
     }

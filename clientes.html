@@ -8,13 +8,16 @@
 </head>
 <body data-pagina="clientes">
 
-<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
 
+<!-- el menu lo dibuja js/app.js segun el rol -->
 <div class="sidebar" id="menu"></div>
 
 <div class="main">
 
 <div class="header">
+    <i data-ico="users"></i>
     <div>
         <h1>Clientes</h1>
         <p>Importadores y consignatarios para usar en las declaraciones</p>
@@ -59,8 +62,8 @@
     </div>
     <p id="errorCliente" class="error-texto"></p>
     <div class="botones izq">
-        <button class="guardar" id="btnGuardarCliente">Guardar cliente</button>
-        <button class="limpiar" id="btnLimpiarCliente">Limpiar</button>
+        <button class="guardar" id="btnGuardarCliente"><i data-ico="save"></i>Guardar cliente</button>
+        <button class="limpiar" id="btnLimpiarCliente"><i data-ico="filter"></i>Limpiar</button>
     </div>
 </div>
 
@@ -89,6 +92,7 @@
 </div>
 
 <script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
 <script src="js/app.js"></script>
 <script src="js/clientes.js"></script>
 </body>

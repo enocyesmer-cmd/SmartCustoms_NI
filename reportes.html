@@ -8,13 +8,16 @@
 </head>
 <body data-pagina="reportes">
 
-<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
 
+<!-- el menu lo dibuja js/app.js segun el rol -->
 <div class="sidebar" id="menu"></div>
 
 <div class="main">
 
 <div class="header">
+    <i data-ico="chart"></i>
     <div>
         <h1>Reportes</h1>
         <p>Declaraciones guardadas por mes, cliente, aduana o estado</p>
@@ -61,17 +64,17 @@
         </div>
     </div>
     <div class="botones izq">
-        <button class="limpiar" id="btnLimpiarReporte">Limpiar filtros</button>
-        <button id="btnCSV">Exportar a Excel (CSV)</button>
-        <button id="btnPDF">Imprimir / PDF</button>
+        <button class="limpiar" id="btnLimpiarReporte"><i data-ico="filter"></i>Limpiar filtros</button>
+        <button id="btnCSV"><i data-ico="download"></i>Exportar a Excel (CSV)</button>
+        <button id="btnPDF"><i data-ico="printer"></i>Imprimir / PDF</button>
     </div>
 </div>
 
 <div class="cards">
-    <div class="card"><h2 id="rTotal">0</h2><p>Declaraciones</p></div>
-    <div class="card"><h2 id="rCIF">0</h2><p>Total CIF</p></div>
-    <div class="card"><h2 id="rAprobadas">0</h2><p>Aprobadas</p></div>
-    <div class="card"><h2 id="rPendientes">0</h2><p>Pendientes</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="file-text"></i></span><h2 id="rTotal">0</h2><p>Declaraciones</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="chart"></i></span><h2 id="rCIF">0</h2><p>Total CIF</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="check-circle"></i></span><h2 id="rAprobadas">0</h2><p>Aprobadas</p></div>
+    <div class="card"><span class="card-ico"><i data-ico="clock"></i></span><h2 id="rPendientes">0</h2><p>Pendientes</p></div>
 </div>
 
 <h2 class="subtitulo" id="tituloAgrupado">Resumen</h2>
@@ -109,6 +112,7 @@
 </div>
 
 <script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
 <script src="js/app.js"></script>
 <script src="js/reportes.js"></script>
 </body>

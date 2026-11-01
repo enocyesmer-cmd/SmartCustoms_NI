@@ -8,13 +8,16 @@
 </head>
 <body data-pagina="nueva">
 
-<button class="btn-menu" id="btnMenu" aria-label="Abrir menú">Menú</button>
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
 
+<!-- el menu lo dibuja js/app.js segun el rol -->
 <div class="sidebar" id="menu"></div>
 
 <div class="main">
 
 <div class="header">
+    <i data-ico="file-text"></i>
     <div>
         <h1>Nueva Declaración Aduanera</h1>
         <p>Compatible con SIDUNEA World</p>
@@ -23,7 +26,7 @@
 
 <!-- DATOS DE LA DECLARACIÓN -->
 <div class="form-card">
-    <h2>Datos de la Declaración</h2>
+    <h2><i data-ico="file-text"></i>Datos de la Declaración</h2>
     <div class="grid">
         <div>
             <label>Referencia DUA</label>
@@ -57,7 +60,7 @@
 
 <!-- OPERADORES -->
 <div class="form-card">
-    <h2>Operadores</h2>
+    <h2><i data-ico="users"></i>Operadores</h2>
     <div class="grid">
         <div data-ignorar>
             <label>Cliente guardado</label>
@@ -82,7 +85,7 @@
 
 <!-- PAÍSES -->
 <div class="form-card">
-    <h2>Países</h2>
+    <h2><i data-ico="globe"></i>Países</h2>
     <div class="grid">
         <div>
             <label>Primer Destino</label>
@@ -111,9 +114,9 @@
     </div>
 </div>
 
-
+<!-- TRANSPORTE -->
 <div class="form-card">
-    <h2>Transporte</h2>
+    <h2><i data-ico="truck"></i>Transporte</h2>
     <div class="grid">
         <div>
             <label>Identidad Transporte</label>
@@ -174,9 +177,9 @@
     </div>
 </div>
 
-
+<!-- INFORMACIÓN FINANCIERA -->
 <div class="form-card">
-    <h2>Información Financiera</h2>
+    <h2><i data-ico="shield"></i>Información Financiera</h2>
     <div class="grid">
         <div>
             <label>Código Financiero 1</label>
@@ -201,9 +204,9 @@
     </div>
 </div>
 
-
+<!-- VALORES ADUANEROS -->
 <div class="form-card">
-    <h2>Valores Aduaneros</h2>
+    <h2><i data-ico="chart"></i>Valores Aduaneros</h2>
     <div class="grid">
         <div>
             <label>Valor Factura</label>
@@ -242,7 +245,7 @@
 
 <!-- DOCUMENTOS -->
 <div class="form-card">
-    <h2>Documentos Adjuntos</h2>
+    <h2><i data-ico="file-text"></i>Documentos Adjuntos</h2>
     <div class="tabla-scroll">
         <table>
             <tr>
@@ -287,7 +290,7 @@
 
 <!-- MERCANCIAS -->
 <div class="form-card">
-    <h2>Mercancías</h2>
+    <h2><i data-ico="package"></i>Mercancías</h2>
     <div class="tabla-scroll">
         <table>
             <thead>
@@ -328,17 +331,19 @@
     </div>
 </div>
 
+<!-- botones de abajo -->
 <div class="botones">
-    <button class="agregar" onclick="agregarMercancia()">Agregar Mercancía</button>
-    <button class="guardar" onclick="guardarDeclaracion()">Guardar Declaración</button>
-    <button class="dav" onclick="generarXML('DAV')">Generar XML DAV</button>
-    <button class="dua" onclick="generarXML('DUA')">Generar XML DUA</button>
-    <button class="volver" onclick="window.location.href='index.html'">Volver</button>
+    <button class="agregar" onclick="agregarMercancia()"><i data-ico="plus"></i>Agregar Mercancía</button>
+    <button class="guardar" onclick="guardarDeclaracion()"><i data-ico="save"></i>Guardar Declaración</button>
+    <button class="dav" onclick="generarXML('DAV')"><i data-ico="download"></i>Generar XML DAV</button>
+    <button class="dua" onclick="generarXML('DUA')"><i data-ico="download"></i>Generar XML DUA</button>
+    <button class="volver" onclick="window.location.href='index.html'"><i data-ico="arrow-left"></i>Volver</button>
 </div>
 
 </div>
 
 <script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
