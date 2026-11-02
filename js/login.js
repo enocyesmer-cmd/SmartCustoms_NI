@@ -5,12 +5,20 @@ if (sesionActual()) {
     window.location.replace('index.html');
 }
 
-document.getElementById('formLogin').addEventListener('submit', function (e) {
+pintarIconos();   // los iconos que estan escritos en el html (<i data-ico>)
+
+// ojito: alterna entre ocultar y mostrar la contraseña
+$('verClave').addEventListener('click', function () {
+    var campo = $('clave');
+    campo.type = (campo.type == 'password') ? 'text' : 'password';
+});
+
+$('formLogin').addEventListener('submit', function (e) {
     e.preventDefault();   // para que el formulario no recargue la pagina
 
-    var usuario = document.getElementById('usuario').value.trim();
-    var clave = document.getElementById('clave').value;
-    var error = document.getElementById('errorLogin');
+    var usuario = $('usuario').value.trim();
+    var clave = $('clave').value;
+    var error = $('errorLogin');
 
     if (usuario == '' || clave == '') {
         error.textContent = 'Escriba el usuario y la contraseña';
@@ -20,7 +28,7 @@ document.getElementById('formLogin').addEventListener('submit', function (e) {
     var mensaje = iniciarSesion(usuario, clave);
     if (mensaje != '') {
         error.textContent = mensaje;
-        document.getElementById('clave').value = '';   // se borra la clave por si se equivoco
+        $('clave').value = '';   // se borra la clave por si se equivoco
         return;
     }
     window.location.href = 'index.html';

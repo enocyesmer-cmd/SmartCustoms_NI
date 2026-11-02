@@ -669,49 +669,6 @@ button:hover {
     }
 }
 
-/* ---------- login, usuario y paginas nuevas ---------- */
-
-.pagina-login {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    background: var(--azul);
-}
-
-.login-caja {
-    background: white;
-    width: 100%;
-    max-width: 380px;
-    padding: 28px;
-    border-radius: 6px;
-}
-
-.login-caja img {
-    display: block;
-    width: 200px;
-    margin: 0 auto 10px;
-}
-
-.login-caja h1 {
-    color: var(--azul);
-    font-size: 22px;
-    text-align: center;
-}
-
-.login-sub {
-    text-align: center;
-    color: var(--gris);
-    font-size: 14px;
-    margin-bottom: 18px;
-    font-style: italic;
-}
-
-.login-caja label {
-    margin-top: 12px;
-}
-
 .btn-ancho {
     width: 100%;
     margin-top: 16px;
@@ -967,15 +924,6 @@ tr.fila-nueva {
     animation: fundido .25s ease-out;
 }
 
-/* login */
-.login-caja {
-    animation: entrar-modal .5s ease-out;
-}
-
-.login-caja img {
-    animation: fundido .8s ease-out .15s backwards;
-}
-
 /* error del login se mueve un poquito para llamar la atencion */
 @keyframes sacudir {
     0%, 100% { transform: translateX(0); }
@@ -1137,4 +1085,477 @@ button {
 .btn-claro {
     display: flex;
     width: 100%;
+}
+
+/* ---------- color de los iconos (ahora son imagenes azules) ---------- */
+/* sobre fondo oscuro se vuelven blancos con filter */
+
+.sidebar .ico,
+button .ico,
+.estado .ico,
+.header > .ico,
+.card:hover .card-ico .ico {
+    filter: brightness(0) invert(1);
+}
+
+.ico {
+    object-fit: contain;
+}
+
+/* ---------- login (nuevo diseno) ---------- */
+
+.pagina-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: var(--azul-oscuro);
+    position: relative;
+    overflow: hidden;
+}
+
+/* burbujas del fondo: flotan despacio */
+.burbuja {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .06);
+    animation: flotar 9s ease-in-out infinite;
+}
+
+.b1 { width: 260px; height: 260px; top: -70px; left: -60px; }
+.b2 { width: 160px; height: 160px; bottom: 40px; left: 8%; animation-delay: -3s; }
+.b3 { width: 320px; height: 320px; bottom: -120px; right: -80px; animation-delay: -5s; }
+.b4 { width: 90px; height: 90px; top: 14%; right: 12%; animation-delay: -7s; }
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+}
+
+/* tarjeta partida en dos */
+.login-tarjeta {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 940px;
+    min-height: 560px;
+    background: #fafbfc;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+    animation: entrar-modal .6s ease-out;
+}
+
+/* la forma azul ocupa el lado derecho */
+.login-onda {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 57%;
+    height: 100%;
+}
+
+.login-onda path {
+    fill: var(--azul);
+}
+
+.login-marca,
+.login-form {
+    position: relative;   /* para quedar encima de la onda */
+    z-index: 1;
+}
+
+.login-marca {
+    flex: 1;
+    padding: 34px 20px 50px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.login-logo {
+    width: 190px;
+    animation: fundido .8s ease-out .2s backwards;
+}
+
+.login-dibujo {
+    width: 100%;
+    max-width: 330px;
+    margin: 22px 0 10px;
+}
+
+/* movimientos de la ilustracion */
+.flota {
+    animation: flotar 5s ease-in-out infinite;
+}
+
+.flota.retraso {
+    animation-delay: -2.5s;
+}
+
+.flujo line {
+    stroke-dasharray: 10 8;
+    animation: correr 1.2s linear infinite;
+}
+
+@keyframes correr {
+    to { stroke-dashoffset: -18; }
+}
+
+.login-lema {
+    color: var(--azul);
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+.login-texto {
+    color: var(--gris);
+    font-size: 14px;
+    max-width: 290px;
+}
+
+/* formulario sobre la parte azul */
+.login-form {
+    width: 46%;
+    padding: 50px 44px 50px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+}
+
+.login-form h1 {
+    font-size: 30px;
+}
+
+.login-sub {
+    opacity: .8;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.login-form label {
+    color: white;
+    margin: 14px 0 6px;
+}
+
+/* campo con icono dentro, forma de pildora */
+.campo-login {
+    position: relative;
+}
+
+.campo-login > .ico {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: brightness(0) invert(1);
+    opacity: .75;
+}
+
+.campo-login input {
+    background: rgba(0, 0, 0, .25);
+    border: 1px solid rgba(255, 255, 255, .15);
+    color: white;
+    border-radius: 50px;
+    padding: 12px 44px 12px 42px;
+}
+
+.campo-login input::placeholder {
+    color: rgba(255, 255, 255, .55);
+}
+
+.campo-login input:focus {
+    background: rgba(0, 0, 0, .35);
+    border-color: white;
+    box-shadow: none;
+}
+
+/* boton para ver la contraseña */
+.ojo {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.ojo:hover {
+    background: rgba(255, 255, 255, .15);
+    box-shadow: none;
+}
+
+.ojo:active {
+    transform: translateY(-50%) scale(.92);
+}
+
+.login-form .error-texto {
+    color: #ffd2ce;
+}
+
+.btn-entrar {
+    width: 100%;
+    margin-top: 12px;
+    padding: 13px;
+    border-radius: 50px;
+    background: white;
+    color: var(--azul);
+    font-size: 15px;
+}
+
+.btn-entrar:hover {
+    background: var(--azul-claro);
+}
+
+
+.login-pie {
+    position: absolute;
+    left: 40px;
+    bottom: 16px;
+    z-index: 1;
+    font-size: 12px;
+    color: var(--gris);
+}
+
+/* celular: se apila, la parte azul pasa a ser todo el formulario */
+@media (max-width: 800px) {
+    .login-tarjeta {
+        flex-direction: column;
+        min-height: 0;
+        border-radius: 22px;
+        background: var(--azul);
+    }
+
+    .login-onda,
+    .login-dibujo,
+    .login-texto,
+    .login-pie {
+        display: none;
+    }
+
+    .login-marca {
+        background: #fafbfc;
+        padding: 22px 20px 18px;
+        border-radius: 0 0 40% 40% / 0 0 28px 28px;
+    }
+
+    .login-logo {
+        width: 150px;
+    }
+
+    .login-lema {
+        font-size: 16px;
+        margin: 6px 0 0;
+    }
+
+    .login-form {
+        width: 100%;
+        padding: 26px 26px 30px;
+    }
+
+    .login-form h1 {
+        font-size: 26px;
+    }
+}
+
+/* ---------- validaciones ---------- */
+
+input.error,
+select.error {
+    border-color: #c62828;
+    background: #fdf0f0;
+}
+
+/* lista de problemas en la ventana "Revise estos datos" */
+.lista-errores {
+    margin: 0 0 6px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.lista-errores li {
+    color: #8c1d17;
+}
+
+/* aviso dentro del dashboard */
+.alerta {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #fff4e5;
+    border-left: 4px solid #c77c0e;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* ---------- recibo del xml ---------- */
+
+.modal-ancho {
+    max-width: 780px;
+}
+
+.recibo-cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--azul);
+}
+
+.recibo-logo {
+    width: 130px;
+}
+
+.recibo-titulo {
+    text-align: right;
+}
+
+.recibo-titulo h2 {
+    margin: 0 0 6px;
+}
+
+.recibo-sello {
+    display: inline-block;
+    background: var(--azul);
+    color: white;
+    padding: 3px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* datos del resumen en cuadritos */
+.recibo-datos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin: 14px 0;
+    background: var(--borde);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.recibo-datos div {
+    background: white;
+    padding: 9px 12px;
+    min-width: 0;
+}
+
+.recibo-datos small {
+    display: block;
+    color: var(--gris);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.recibo-datos b {
+    display: block;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.recibo-sub {
+    color: var(--azul);
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+/* bloque de codigo oscuro */
+.xml-codigo {
+    background: #0a1d44;
+    color: #e6ecf7;
+    padding: 14px 16px;
+    border-radius: 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12.5px;
+    line-height: 1.55;
+    max-height: 280px;
+    overflow: auto;
+    white-space: pre;
+    tab-size: 2;
+}
+
+.x-tag { color: #8fb4ff; }
+.x-att { color: #c9d6f0; }
+.x-val { color: #a8e0c0; }
+.x-txt { color: #ffffff; }
+.x-com { color: #7d8aa5; }
+
+.recibo-botones {
+    text-align: right;
+}
+
+.recibo-botones button {
+    margin: 12px 0 0 6px;
+}
+
+@media (max-width: 800px) {
+    .recibo-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .recibo-cab {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .recibo-titulo {
+        text-align: left;
+    }
+
+    .recibo-botones button {
+        width: 100%;
+        margin: 6px 0 0;
+    }
+}
+
+/* al imprimir el recibo solo se ve la ventana, sin lo demas */
+@media print {
+    body.imprimiendo-recibo .main,
+    body.imprimiendo-recibo .sidebar,
+    body.imprimiendo-recibo .btn-menu,
+    body.imprimiendo-recibo .aviso {
+        display: none !important;
+    }
+
+    body.imprimiendo-recibo .modal-fondo {
+        position: static;
+        display: block;
+        background: none;
+        padding: 0;
+    }
+
+    body.imprimiendo-recibo .modal {
+        max-height: none;
+        max-width: none;
+        padding: 0;
+        overflow: visible;
+    }
+
+    body.imprimiendo-recibo .recibo-botones {
+        display: none;
+    }
+
+    body.imprimiendo-recibo .xml-codigo {
+        max-height: none;
+        white-space: pre-wrap;
+        background: #f3f5f9;
+        color: black;
+    }
+
+    body.imprimiendo-recibo .x-tag,
+    body.imprimiendo-recibo .x-att,
+    body.imprimiendo-recibo .x-val,
+    body.imprimiendo-recibo .x-txt,
+    body.imprimiendo-recibo .x-com {
+        color: black;
+    }
 }

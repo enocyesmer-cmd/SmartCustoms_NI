@@ -1,5 +1,6 @@
 // SmartCustoms NI - reportes
 
+var FILTROS_REPORTE = ['rDesde', 'rHasta', 'rCliente', 'rAduana', 'rEstado'];
 var filasReporte = [];   // declaraciones que pasan los filtros
 
 // total CIF de una declaracion como numero
@@ -9,9 +10,7 @@ function cifDe(reg) {
 
 // de dd/mm/yyyy a yyyy-mm
 function mesDe(fecha) {
-    // dd/mm/yyyy -> yyyy-mm
-    var p = fecha.split('/');
-    return p[2] + '-' + p[1];
+    return convertirFecha(fecha).slice(0, 7);
 }
 
 // formatea con comas y 2 decimales
@@ -21,27 +20,19 @@ function dinero(n) {
 
 // devuelve solo las declaraciones que cumplen los filtros
 function filtrarReporte() {
-    var desde = document.getElementById('rDesde').value;
-    var hasta = document.getElementById('rHasta').value;
-    var cliente = document.getElementById('rCliente').value.toLowerCase();
-    var aduana = document.getElementById('rAduana').value.toLowerCase();
-    var estado = document.getElementById('rEstado').value;
+    var desde = $('rDesde').value;
+    var hasta = $('rHasta').value;
+    var cliente = $('rCliente').value.toLowerCase();
+    var aduana = $('rAduana').value.toLowerCase();
+    var estado = $('rEstado').value;
 
-    var lista = leerDeclaraciones();
-    var salida = [];
-
-    for (var i = 0; i < lista.length; i++) {
-        var r = lista[i];
+    return leerDeclaraciones().filter(function (r) {
         var fecha = convertirFecha(r.fecha);
-
-        if (desde && fecha < desde) continue;
-        if (hasta && fecha > hasta) continue;
-        if (cliente && (r.cliente || '').toLowerCase().indexOf(cliente) == -1) continue;
-        if (aduana && (r.aduana || '').toLowerCase().indexOf(aduana) == -1) continue;
-        if (estado && r.estado != estado) continue;
-        salida.push(r);
-    }
-    return salida;
+        return !(desde && fecha < desde) && !(hasta && fecha > hasta) &&
+            (r.cliente || '').toLowerCase().indexOf(cliente) != -1 &&
+            (r.aduana || '').toLowerCase().indexOf(aduana) != -1 &&
+            (!estado || r.estado == estado);
+    });
 }
 
 // dice en que grupo cae una declaracion segun el agrupar por
@@ -55,7 +46,7 @@ function claveGrupo(reg, tipo) {
 // calcula totales y llena las tarjetas y las dos tablas
 function dibujarReporte() {
     filasReporte = filtrarReporte();
-    var tipo = document.getElementById('rAgrupar').value;
+    var tipo = $('rAgrupar').value;
     var nombres = { mes: 'Mes', cliente: 'Cliente', aduana: 'Aduana', estado: 'Estado' };
 
     var totalCIF = 0, aprobadas = 0, pendientes = 0;
@@ -73,12 +64,12 @@ function dibujarReporte() {
         grupos[g].cif += cifDe(r);
     }
 
-    document.getElementById('rTotal').textContent = filasReporte.length;
-    document.getElementById('rCIF').textContent = dinero(totalCIF);
-    document.getElementById('rAprobadas').textContent = aprobadas;
-    document.getElementById('rPendientes').textContent = pendientes;
-    document.getElementById('thGrupo').textContent = nombres[tipo];
-    document.getElementById('tituloAgrupado').textContent = 'Resumen por ' + nombres[tipo].toLowerCase();
+    $('rTotal').textContent = filasReporte.length;
+    $('rCIF').textContent = dinero(totalCIF);
+    $('rAprobadas').textContent = aprobadas;
+    $('rPendientes').textContent = pendientes;
+    $('thGrupo').textContent = nombres[tipo];
+    $('tituloAgrupado').textContent = 'Resumen por ' + nombres[tipo].toLowerCase();
 
     // resumen
     var nombresGrupo = Object.keys(grupos).sort();
@@ -88,7 +79,7 @@ function dibujarReporte() {
         html += '<tr><td>' + escaparXML(n) + '</td><td>' + grupos[n].cantidad + '</td><td>' + dinero(grupos[n].cif) + '</td></tr>';
     }
     if (html == '') html = '<tr><td colspan="3" class="sin-datos">No hay datos con esos filtros.</td></tr>';
-    document.getElementById('resumen').innerHTML = html;
+    $('resumen').innerHTML = html;
 
     // detalle
     html = '';
@@ -99,7 +90,7 @@ function dibujarReporte() {
             '</td><td>' + escaparXML(d.usuario || '-') + '</td><td>' + dinero(cifDe(d)) + '</td></tr>';
     }
     if (html == '') html = '<tr><td colspan="7" class="sin-datos">No hay datos con esos filtros.</td></tr>';
-    document.getElementById('detalle').innerHTML = html;
+    $('detalle').innerHTML = html;
 
     etiquetarTablas();
 }
@@ -120,31 +111,21 @@ function exportarCSV() {
         var r = filasReporte[i];
         lineas.push([r.referencia, r.cliente, r.aduana, r.fecha, r.estado, r.usuario || '', cifDe(r)].map(celdaCSV).join(','));
     }
-    var blob = new Blob(['﻿' + lineas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'reporte_declaraciones.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    descargar('reporte_declaraciones.csv', '\ufeff' + lineas.join('\r\n'), 'text/csv;charset=utf-8');
 }
 
 // vacia los filtros y vuelve a dibujar
 function limpiarFiltrosReporte() {
-    var ids = ['rDesde', 'rHasta', 'rCliente', 'rAduana', 'rEstado'];
-    for (var i = 0; i < ids.length; i++) document.getElementById(ids[i]).value = '';
+    vaciarCampos(FILTROS_REPORTE);
     dibujarReporte();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     if (window.sinAcceso) return;
 
-    var ids = ['rDesde', 'rHasta', 'rCliente', 'rAduana', 'rEstado', 'rAgrupar'];
-    for (var i = 0; i < ids.length; i++) {
-        document.getElementById(ids[i]).addEventListener('input', dibujarReporte);
-    }
-    document.getElementById('btnLimpiarReporte').onclick = limpiarFiltrosReporte;
-    document.getElementById('btnCSV').onclick = exportarCSV;
-    document.getElementById('btnPDF').onclick = function () { window.print(); };
+    alEscribir(FILTROS_REPORTE.concat('rAgrupar'), dibujarReporte);
+    $('btnLimpiarReporte').onclick = limpiarFiltrosReporte;
+    $('btnCSV').onclick = exportarCSV;
+    $('btnPDF').onclick = function () { window.print(); };
     dibujarReporte();
 });

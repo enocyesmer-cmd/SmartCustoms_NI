@@ -35,12 +35,20 @@ var ICONOS = {
     'users': '<path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'
 };
 
-// devuelve el svg de un icono como texto
+// devuelve el icono como <img> con el svg metido en la propia direccion (data:).
+// Se hace asi y no con <svg> directo porque hay navegadores de celular y visores
+// de archivos que no pintan el svg que se mete con javascript.
+// El icono sale azul; donde el fondo es oscuro el css lo vuelve blanco (filter).
+var guardados = {};   // para no armar el mismo icono muchas veces
+
 function icono(nombre, clase) {
-    var dibujo = ICONOS[nombre] || '';
-    return '<svg class="ico ' + (clase || '') + '" viewBox="0 0 24 24" width="18" height="18" fill="none" ' +
-        'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ' +
-        'aria-hidden="true">' + dibujo + '</svg>';
+    if (!guardados[nombre]) {
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" ' +
+            'fill="none" stroke="#0b3d91" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+            (ICONOS[nombre] || '') + '</svg>';
+        guardados[nombre] = 'data:image/svg+xml,' + encodeURIComponent(svg);
+    }
+    return '<img class="ico ' + (clase || '') + '" src="' + guardados[nombre] + '" width="18" height="18" alt="">';
 }
 
 // cambia cada <i data-ico="nombre"></i> del html por su icono

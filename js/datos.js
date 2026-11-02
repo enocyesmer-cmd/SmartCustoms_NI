@@ -16,43 +16,67 @@ var ROLES = ['declarante', 'revisor', 'administrador'];
 
 // que roles pueden entrar a cada pagina
 var PERMISOS = {
-    inicio: ['declarante', 'revisor', 'administrador'],
+    inicio: ROLES,
     nueva: ['declarante', 'administrador'],
-    buscar: ['declarante', 'revisor', 'administrador'],
-    clientes: ['declarante', 'revisor', 'administrador'],
-    productos: ['declarante', 'revisor', 'administrador'],
+    buscar: ROLES,
+    clientes: ROLES,
+    productos: ROLES,
     reportes: ['revisor', 'administrador'],
     configuracion: ['administrador']
 };
 
+// ---------- atajos que se usan en todos lados ----------
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+// busca en la lista el elemento con ese id (undefined si no esta)
+function porId(lista, id) {
+    return lista.find(function (x) { return x.id == id; });
+}
+
+// deja vacios los campos con esos ids
+function vaciarCampos(ids) {
+    ids.forEach(function (id) { $(id).value = ''; });
+}
+
+// ejecuta fn cada vez que se escriba en alguno de los campos
+function alEscribir(ids, fn) {
+    ids.forEach(function (id) { $(id).addEventListener('input', fn); });
+}
+
 // ---------- lectura y escritura ----------
 
-// lee una lista de localStorage, si no hay nada devuelve []
+// lee de localStorage. Si no hay nada, esta danado o no es del mismo tipo
+// que "vacio" (lista u objeto), devuelve "vacio"
+function leerJSON(clave, vacio) {
+    try {
+        var d = JSON.parse(localStorage.getItem(clave));
+        return (d && typeof d == 'object' && Array.isArray(d) == Array.isArray(vacio)) ? d : vacio;
+    } catch (e) {
+        return vacio;
+    }
+}
+
 function leerLista(clave) {
-    try {
-        return JSON.parse(localStorage.getItem(clave)) || [];
-    } catch (e) {
-        return [];
-    }
+    return leerJSON(clave, []);
 }
 
-// guarda una lista en localStorage
-function guardarLista(clave, lista) {
-    localStorage.setItem(clave, JSON.stringify(lista));
-}
-
-// lee los datos del declarante
+// datos del declarante
 function leerConfig() {
-    try {
-        return JSON.parse(localStorage.getItem(K.config)) || {};
-    } catch (e) {
-        return {};
-    }
+    return leerJSON(K.config, {});
 }
 
-// guarda los datos del declarante
-function guardarConfig(obj) {
-    localStorage.setItem(K.config, JSON.stringify(obj));
+// guarda lo que le pasen; devuelve false si no se pudo (almacenamiento lleno o bloqueado)
+function guardarLista(clave, valor) {
+    try {
+        localStorage.setItem(clave, JSON.stringify(valor));
+        return true;
+    } catch (e) {
+        if (window.mostrarAviso) mostrarAviso('No se pudo guardar: el almacenamiento del navegador está lleno o bloqueado');
+        return false;
+    }
 }
 
 // id unico con la hora mas un numero al azar
@@ -80,14 +104,8 @@ function hashClave(texto) {
 function crearUsuarioInicial() {
     var lista = leerLista(K.usuarios);
     if (lista.length == 0) {
-        lista.push({
-            id: nuevoId(),
-            usuario: 'admin',
-            nombre: 'Administrador',
-            rol: 'administrador',
-            claveHash: hashClave('admin123'),
-            activo: true
-        });
+        lista.push({ id: nuevoId(), usuario: 'admin', nombre: 'Administrador', rol: 'administrador',
+            claveHash: hashClave('admin123'), activo: true });
         guardarLista(K.usuarios, lista);
     }
 }
@@ -105,18 +123,38 @@ function sesionActual() {
 
 // devuelve texto de error, o '' si entro bien
 function iniciarSesion(usuario, clave) {
-    var lista = leerLista(K.usuarios);
-    for (var i = 0; i < lista.length; i++) {
-        var u = lista[i];
-        if (u.usuario.toLowerCase() == usuario.toLowerCase()) {
-            if (u.claveHash != hashClave(clave)) return 'Usuario o contraseña incorrectos';
-            if (!u.activo) return 'Este usuario está desactivado';
-            sessionStorage.setItem(K.sesion, JSON.stringify({
-                id: u.id, usuario: u.usuario, nombre: u.nombre, rol: u.rol
-            }));
-            return '';
-        }
+    // despues de 5 fallos seguidos se bloquea un rato (cada vez mas largo)
+    var bloqueo = leerBloqueo();
+    if (bloqueo.hasta > Date.now()) {
+        return 'Demasiados intentos. Espere ' + Math.ceil((bloqueo.hasta - Date.now()) / 1000) + ' segundos';
     }
+    if (usuario.length > 30 || clave.length > 64) return fallarLogin(bloqueo);
+
+    var u = leerLista(K.usuarios).find(function (x) {
+        return x.usuario.toLowerCase() == usuario.toLowerCase();
+    });
+    if (!u || u.claveHash != hashClave(clave)) return fallarLogin(bloqueo);
+    if (!u.activo) return 'Este usuario está desactivado';
+
+    localStorage.removeItem('sc_bloqueo');
+    sessionStorage.setItem(K.sesion, JSON.stringify({ id: u.id, usuario: u.usuario, nombre: u.nombre, rol: u.rol }));
+    return '';
+}
+
+// cuantos fallos lleva el login
+function leerBloqueo() {
+    var b = leerJSON('sc_bloqueo', {});
+    return { n: Number(b.n) || 0, hasta: Number(b.hasta) || 0, veces: Number(b.veces) || 0 };
+}
+
+// suma un fallo; al quinto bloquea 30 s, luego 60 s, 120 s... (maximo 10 min)
+function fallarLogin(bloqueo) {
+    if (++bloqueo.n >= 5) {
+        bloqueo.veces++;
+        bloqueo.n = 0;
+        bloqueo.hasta = Date.now() + Math.min(30000 * Math.pow(2, bloqueo.veces - 1), 600000);
+    }
+    guardarLista('sc_bloqueo', bloqueo);
     return 'Usuario o contraseña incorrectos';
 }
 
@@ -128,13 +166,12 @@ function cerrarSesion() {
 
 // mira en PERMISOS si el rol puede entrar a esa pagina
 function puedeVerPagina(pagina, rol) {
-    var roles = PERMISOS[pagina];
-    return roles ? roles.indexOf(rol) != -1 : false;
+    return (PERMISOS[pagina] || []).indexOf(rol) != -1;
 }
 
 // revisor solo consulta clientes y productos
 function puedeModificarCatalogos(rol) {
-    return rol == 'declarante' || rol == 'administrador';
+    return rol != 'revisor';
 }
 
 // se ejecuta al cargar cada pagina
@@ -143,33 +180,26 @@ function protegerPagina() {
     crearUsuarioInicial();
     if (pagina == 'login') return;
 
-    var s = sesionActual();
-    if (!s) {
+    // manda a otra pagina y avisa al resto del codigo que no siga
+    function salir(url) {
         window.sinAcceso = true;
-        window.location.replace('login.html');
-        return;
+        window.location.replace(url);
     }
+
     // el usuario pudo ser borrado o desactivado mientras tenia la sesion abierta
-    var lista = leerLista(K.usuarios);
-    var existe = false;
-    for (var i = 0; i < lista.length; i++) {
-        if (lista[i].id == s.id && lista[i].activo) {
-            existe = true;
-            s.rol = lista[i].rol;     // por si le cambiaron el rol
-            s.nombre = lista[i].nombre;
-            sessionStorage.setItem(K.sesion, JSON.stringify(s));
-        }
-    }
-    if (!existe) {
+    var s = sesionActual();
+    var u = s && leerLista(K.usuarios).find(function (x) { return x.id == s.id && x.activo; });
+    if (!u) {
         sessionStorage.removeItem(K.sesion);
-        window.sinAcceso = true;
-        window.location.replace('login.html');
-        return;
+        return salir('login.html');
     }
-    if (!puedeVerPagina(pagina, s.rol)) {
-        window.sinAcceso = true;
-        window.location.replace('index.html?sinpermiso=1');
-    }
+
+    // por si le cambiaron el rol o el nombre
+    s.rol = u.rol;
+    s.nombre = u.nombre;
+    sessionStorage.setItem(K.sesion, JSON.stringify(s));
+
+    if (!puedeVerPagina(pagina, s.rol)) salir('index.html?sinpermiso=1');
 }
 
 // se llama aqui mismo, antes de que la pagina termine de cargar
