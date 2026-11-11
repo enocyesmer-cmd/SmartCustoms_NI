@@ -34,9 +34,8 @@ function dibujarMenu() {
     html += '</ul></li>';
 
     html += item('reportes', 'Reportes', 'reportes.html', 'chart');
-    html += '<li><span onclick="mostrarAviso(\'SIDUNEA World: próximamente\')">' + icono('globe') + 'SIDUNEA World</span></li>';
-    html += '<li><span onclick="mostrarAviso(\'IA Arancelaria: próximamente\')">' + icono('brain') + 'IA Arancelaria</span></li>';
     html += item('configuracion', 'Configuración', 'configuracion.html', 'settings');
+    html += item('ayuda', 'Ayuda', 'ayuda.html', 'help');
     html += '</ul>';
 
     html += '<div class="usuario-box">';

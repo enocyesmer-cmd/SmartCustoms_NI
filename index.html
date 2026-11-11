@@ -2,9 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d91">
+<meta name="description" content="SmartCustoms NI - gestión aduanera: declaraciones, clientes, productos y recibos en PDF.">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/icono-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>SmartCustoms NI</title>
 <link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/profesional.css">
 </head>
 <body data-pagina="inicio">
 
@@ -45,10 +51,22 @@
     <p id="resumenGuardadas" style="margin-top:8px;color:#6b7280"></p>
 </div>
 
+<div class="panel ayuda-inicio">
+    <h2>Primeros pasos</h2>
+    <p>Si es su primera vez, siga estos tres pasos. Cada uno lleva a la pantalla donde se hace.</p>
+    <div class="pasos">
+        <div class="paso"><span class="num">1</span><h3>Registre un cliente</h3><p>Guarde al importador o consignatario una sola vez y úselo en todas sus declaraciones.</p><a href="clientes.html">Ir a Clientes →</a></div>
+        <div class="paso"><span class="num">2</span><h3>Cree la declaración</h3><p>Llene el formulario, agregue las mercancías y guárdela. El sistema le avisa si falta algo.</p><a href="nueva_declaracion.html">Nueva declaración →</a></div>
+        <div class="paso"><span class="num">3</span><h3>Saque el recibo en PDF</h3><p>En Buscar Declaración pulse «Recibo» y luego «Imprimir / Guardar PDF».</p><a href="buscar_declaracion.html">Buscar declaración →</a></div>
+    </div>
+    <p style="margin-top:14px"><a href="ayuda.html" style="font-weight:600;color:#1553b5">¿Necesita más ayuda? Abra la guía completa →</a></p>
+</div>
+
 <div class="footer">SmartCustoms NI © 2026 - Todos los Derechos Reservados.</div>
 
 </div>
 
+<script src="js/sync.js"></script>
 <script src="js/datos.js"></script>
 <script src="js/iconos.js"></script>
 <script src="js/validaciones.js"></script>

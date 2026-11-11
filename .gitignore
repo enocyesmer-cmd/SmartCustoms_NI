@@ -1,0 +1,8 @@
+# base de datos y copias (nunca se suben a GitHub: tienen datos reales)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/*.tmp
+node_modules/
+.env
+*.log

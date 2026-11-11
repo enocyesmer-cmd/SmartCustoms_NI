@@ -55,7 +55,7 @@ function iniciarInicio() {
     var total = lista.length;
     $('resumenGuardadas').textContent = total == 0 ?
         'Todavía no hay declaraciones guardadas.' :
-        'Hay ' + total + ' declaración(es) guardada(s) en este equipo.';
+        'Hay ' + total + ' declaración(es) guardada(s) ' + (window.SC_DB && SC_DB.modo == 'servidor' ? 'en la base de datos.' : 'en este equipo.');
 
     if (window.location.search.indexOf('sinpermiso') != -1) {
         mostrarAviso('No tiene permiso para entrar a esa página');

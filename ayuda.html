@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d91">
+<meta name="description" content="SmartCustoms NI - gestión aduanera: declaraciones, clientes, productos y recibos en PDF.">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/icono-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>SmartCustoms NI - Ayuda</title>
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/profesional.css">
+</head>
+<body data-pagina="ayuda">
+
+<!-- boton del menu para celular -->
+<button class="btn-menu" id="btnMenu" aria-label="Abrir menú"><i data-ico="menu"></i>Menú</button>
+
+<!-- el menu lo dibuja js/app.js segun el rol -->
+<div class="sidebar" id="menu"></div>
+
+<div class="main">
+
+<div class="header">
+    <i data-ico="help"></i>
+    <div>
+        <h1>Ayuda</h1>
+        <p>Guía rápida para usar SmartCustoms NI paso a paso</p>
+    </div>
+</div>
+
+<div class="panel">
+    <h2>Lo básico en tres pasos</h2>
+    <div class="pasos">
+        <div class="paso"><span class="num">1</span><h3>Registre un cliente</h3><p>Entre a <b>Clientes</b>, llene el formulario y pulse «Guardar cliente».</p><a href="clientes.html">Ir a Clientes →</a></div>
+        <div class="paso"><span class="num">2</span><h3>Cree la declaración</h3><p>Entre a <b>Declaraciones → Nueva Declaración</b>, llene los datos y pulse «Guardar».</p><a href="nueva_declaracion.html">Nueva declaración →</a></div>
+        <div class="paso"><span class="num">3</span><h3>Saque el recibo en PDF</h3><p>En <b>Buscar Declaración</b> pulse «Recibo» y después «Imprimir / Guardar PDF».</p><a href="buscar_declaracion.html">Buscar declaración →</a></div>
+    </div>
+</div>
+
+<div class="guia">
+    <details open>
+        <summary>¿Cómo guardo el recibo como PDF?</summary>
+        <div>
+            <ul>
+                <li>Abra <b>Buscar Declaración</b> y pulse <b>Recibo</b> en la fila que quiera.</li>
+                <li>Pulse <b>Imprimir / Guardar PDF</b>. Se abre la ventana de impresión de su navegador.</li>
+                <li>En <b>Destino</b> (o «Impresora») elija <b>Guardar como PDF</b>. En Windows también sirve «Microsoft Print to PDF».</li>
+                <li>Pulse <b>Guardar</b> y elija dónde dejar el archivo. Se llamará, por ejemplo, <i>Recibo_DUA_210426</i>.</li>
+            </ul>
+            <p>En el celular el proceso es igual: pulse «Imprimir / Guardar PDF» y elija «Guardar como PDF» o «Compartir».</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>¿Qué puede hacer cada tipo de usuario?</summary>
+        <div>
+            <ul>
+                <li><b>Declarante:</b> crea y edita sus declaraciones mientras estén «Pendiente», y puede sacar recibos.</li>
+                <li><b>Revisor:</b> revisa y aprueba declaraciones, consulta clientes y productos, y ve los reportes. No crea declaraciones.</li>
+                <li><b>Administrador:</b> puede todo, incluida la Configuración (usuarios, respaldos y datos del declarante).</li>
+            </ul>
+            <p>Cada declaración avanza así: <b>Pendiente → Revisado → Aprobado</b>. El revisor puede reabrirla si hace falta.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>¿Cómo cambio mi contraseña?</summary>
+        <div>
+            <p>En el menú de la izquierda (en celular, pulse «Menú»), abajo del todo, pulse <b>Cambiar contraseña</b>. Escriba la actual, la nueva (mínimo 6 caracteres) y repítala.</p>
+            <p>Si es la primera vez que entra con <i>admin</i> / <i>admin123</i>, cámbiela cuanto antes.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>¿Dónde se guardan mis datos y cómo hago un respaldo?</summary>
+        <div>
+            <p id="ayudaDatos">Sus datos se guardan en este navegador.</p>
+            <p>Sea cual sea el caso, conviene hacer un respaldo de vez en cuando: el administrador lo hace en <b>Configuración → Respaldo de datos</b> con el botón «Descargar respaldo (JSON)».</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>El sistema avisa «Revise antes de imprimir». ¿Qué hago?</summary>
+        <div>
+            <p>Es solo una advertencia: el recibo se puede imprimir igual. Indica algo que se ve raro, por ejemplo que falta la factura comercial o que la suma de las mercancías no coincide con el valor de la factura. Corrija la declaración y vuelva a abrir el recibo si quiere que desaparezca.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Algo no funciona. ¿Qué pruebo primero?</summary>
+        <div>
+            <ul>
+                <li>Recargue la página (en computadora, <b>Ctrl + F5</b>) para asegurarse de ver la versión más reciente.</li>
+                <li>Si no puede entrar, revise mayúsculas en usuario y contraseña. Tras 5 intentos fallidos el sistema espera unos segundos.</li>
+                <li>Si olvidó su contraseña, pídale al administrador que la restablezca en Configuración.</li>
+                <li>Si ve el aviso rojo «Sin conexión: reintentando», revise su internet. Sus cambios se reenvían solos cuando vuelva.</li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+<div class="footer">SmartCustoms NI © 2026 - Todos los Derechos Reservados.</div>
+
+</div>
+
+<script src="js/sync.js"></script>
+<script src="js/datos.js"></script>
+<script src="js/iconos.js"></script>
+<script src="js/validaciones.js"></script>
+<script src="js/app.js"></script>
+<script>
+// el texto de "donde se guardan los datos" cambia segun como este funcionando la web
+(function () {
+    var modo = window.SC_DB && window.SC_DB.modo == 'servidor';
+    document.getElementById('ayudaDatos').textContent = modo
+        ? 'Sus datos se guardan en la base de datos del servidor, así que puede entrar desde cualquier equipo y ver lo mismo.'
+        : 'Sus datos se guardan en este navegador y en este equipo. Si abre la web desde otro computador o borra los datos del navegador, no los verá.';
+})();
+</script>
+</body>
+</html>

@@ -22,7 +22,8 @@ var PERMISOS = {
     clientes: ROLES,
     productos: ROLES,
     reportes: ['revisor', 'administrador'],
-    configuracion: ['administrador']
+    configuracion: ['administrador'],
+    ayuda: ROLES
 };
 
 // ---------- atajos que se usan en todos lados ----------

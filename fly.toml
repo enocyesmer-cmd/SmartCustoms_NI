@@ -1,0 +1,20 @@
+# Publicacion en Fly.io (https://fly.io). Ver README.md, seccion "Opcion B".
+app = "smartcustoms-ni"        # cambie este nombre: debe ser unico en Fly.io
+primary_region = "mia"
+
+[build]
+
+[env]
+  PORT = "8080"
+  SC_DB = "/data/smartcustoms.db"
+
+[[mounts]]
+  source = "datos"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0

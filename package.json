@@ -1,0 +1,12 @@
+{
+  "name": "smartcustoms-ni",
+  "version": "1.1.0",
+  "description": "SmartCustoms NI - gestión aduanera: web + servidor SQLite sin dependencias",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server/server.js"
+  },
+  "engines": { "node": ">=22.13" }
+}

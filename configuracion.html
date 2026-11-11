@@ -2,9 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b3d91">
+<meta name="description" content="SmartCustoms NI - gestión aduanera: declaraciones, clientes, productos y recibos en PDF.">
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/icono-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <title>SmartCustoms NI - Configuración</title>
 <link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/profesional.css">
 </head>
 <body data-pagina="configuracion">
 
@@ -104,18 +110,30 @@
     <p class="nota">Los datos viven en este navegador. Descargue un respaldo seguido, sobre todo antes de limpiar el historial.</p>
 </div>
 
+<div class="form-card" id="tarjetaBD">
+    <h2><i data-ico="package"></i>Base de datos</h2>
+    <p id="bdTexto">Comprobando…</p>
+    <div class="cards" id="bdTablas" style="margin-top:12px"></div>
+    <div class="botones izq" id="bdBotones" style="display:none">
+        <a href="api/respaldo" class="boton-enlace" download><i data-ico="download"></i>Descargar copia de la base de datos (.db)</a>
+        <a href="api/informes/declaraciones.csv" class="boton-enlace" download><i data-ico="chart"></i>Informe de declaraciones (CSV)</a>
+    </div>
+    <p class="nota" id="bdNota"></p>
+</div>
+
 <div class="form-card">
     <h2><i data-ico="globe"></i>Integraciones</h2>
     <p><b>SIDUNEA World:</b> por ahora el sistema solo genera un recibo informativo para imprimir o guardar en PDF. No hay conexión directa.</p>
-    <p style="margin-top:6px"><b>IA Arancelaria:</b> no disponible todavía.</p>
 </div>
 
 </div>
 
+<script src="js/sync.js"></script>
 <script src="js/datos.js"></script>
 <script src="js/iconos.js"></script>
 <script src="js/validaciones.js"></script>
 <script src="js/app.js"></script>
 <script src="js/configuracion.js"></script>
+<script src="js/basedatos.js"></script>
 </body>
 </html>

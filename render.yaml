@@ -1,0 +1,21 @@
+# Publicacion en Render (https://render.com) con disco persistente para la base SQLite.
+# El disco requiere un plan de pago (el plan gratis borra los archivos al reiniciar).
+services:
+  - type: web
+    name: smartcustoms-ni
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /salud
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: SC_DB
+        value: /var/data/smartcustoms.db
+      - key: SC_ACCESO          # "usuario:clave" para entrar a la web; se escribe en el panel de Render
+        sync: false
+    disk:
+      name: datos
+      mountPath: /var/data
+      sizeGB: 1
