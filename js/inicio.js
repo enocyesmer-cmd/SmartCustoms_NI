@@ -44,7 +44,7 @@ function iniciarInicio() {
     }
 
     $('statHoy').textContent = deHoy;
-    $('statXml').textContent = parseInt(localStorage.getItem(K.xml)) || 0;
+    $('statRecibos').textContent = leerRecibos();
     $('statClientes').textContent = leerLista(K.clientes).length;
     $('statAprobadas').textContent =
         (lista.length == 0 ? 0 : Math.round(aprobadas * 100 / lista.length)) + '%';

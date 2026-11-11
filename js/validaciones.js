@@ -69,9 +69,9 @@ function quitarMarcaAlEscribir() {
 
 // ventana con la lista de problemas encontrados
 function mostrarErrores(titulo, lista) {
-    var html = '<div class="modal"><h2>' + escaparXML(titulo) + '</h2><ul class="lista-errores">';
+    var html = '<div class="modal"><h2>' + escaparHTML(titulo) + '</h2><ul class="lista-errores">';
     for (var i = 0; i < lista.length && i < 12; i++) {
-        html += '<li>' + escaparXML(lista[i]) + '</li>';
+        html += '<li>' + escaparHTML(lista[i]) + '</li>';
     }
     if (lista.length > 12) html += '<li>... y ' + (lista.length - 12) + ' más</li>';
     html += '</ul><div class="botones"><button onclick="cerrarModal()">Entendido</button></div></div>';

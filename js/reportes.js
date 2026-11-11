@@ -76,7 +76,7 @@ function dibujarReporte() {
     var html = '';
     for (var j = 0; j < nombresGrupo.length; j++) {
         var n = nombresGrupo[j];
-        html += '<tr><td>' + escaparXML(n) + '</td><td>' + grupos[n].cantidad + '</td><td>' + dinero(grupos[n].cif) + '</td></tr>';
+        html += '<tr><td>' + escaparHTML(n) + '</td><td>' + grupos[n].cantidad + '</td><td>' + dinero(grupos[n].cif) + '</td></tr>';
     }
     if (html == '') html = '<tr><td colspan="3" class="sin-datos">No hay datos con esos filtros.</td></tr>';
     $('resumen').innerHTML = html;
@@ -85,9 +85,9 @@ function dibujarReporte() {
     html = '';
     for (var k = 0; k < filasReporte.length; k++) {
         var d = filasReporte[k];
-        html += '<tr><td>' + escaparXML(d.referencia) + '</td><td>' + escaparXML(d.cliente) + '</td><td>' +
-            escaparXML(d.aduana) + '</td><td>' + escaparXML(d.fecha) + '</td><td>' + escaparXML(d.estado) +
-            '</td><td>' + escaparXML(d.usuario || '-') + '</td><td>' + dinero(cifDe(d)) + '</td></tr>';
+        html += '<tr><td>' + escaparHTML(d.referencia) + '</td><td>' + escaparHTML(d.cliente) + '</td><td>' +
+            escaparHTML(d.aduana) + '</td><td>' + escaparHTML(d.fecha) + '</td><td>' + escaparHTML(d.estado) +
+            '</td><td>' + escaparHTML(d.usuario || '-') + '</td><td>' + dinero(cifDe(d)) + '</td></tr>';
     }
     if (html == '') html = '<tr><td colspan="7" class="sin-datos">No hay datos con esos filtros.</td></tr>';
     $('detalle').innerHTML = html;

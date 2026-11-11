@@ -159,7 +159,7 @@ function campoPorEtiqueta(etiqueta) {
 }
 
 // revisa el formulario completo.
-// modo 'guardar' pide lo basico; modo 'xml' pide ademas que este completo.
+// modo 'guardar' pide lo basico; modo 'recibo' pide ademas que este completo.
 // devuelve true si todo esta bien; si no, marca los campos en rojo y muestra la lista
 function validar(modo) {
     var errores = [];
@@ -275,9 +275,9 @@ function validar(modo) {
         if (limpiarEspacios(ins[7].value) != '' && !PATRON.procedimiento.test(limpiarEspacios(ins[7].value))) { errores.push(pre + 'procedimiento: solo números (máx. 4)'); malos.push(ins[7]); }
     }
 
-    // --- lo que se pide solo para generar el xml ---
-    if (modo == 'xml') {
-        if (!(Number(valor('Valor Factura')) > 0)) malo('Valor Factura', 'Valor Factura: debe ser mayor que 0 para generar el XML');
+    // --- lo que se pide solo para generar el recibo ---
+    if (modo == 'recibo') {
+        if (!(Number(valor('Valor Factura')) > 0)) malo('Valor Factura', 'Valor Factura: debe ser mayor que 0 para generar el recibo');
         if (conDatos == 0) errores.push('Agregue al menos una mercancía');
         if (!hayFactura) errores.push('Falta la Factura Comercial (código 380) con su referencia y fecha');
     }

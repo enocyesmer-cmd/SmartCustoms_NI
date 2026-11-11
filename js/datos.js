@@ -7,7 +7,7 @@ var K = {
     clientes: 'sc_clientes',
     productos: 'sc_productos',
     config: 'sc_config',
-    xml: 'sc_xml_generados',
+    recibos: 'sc_recibos_generados',
     declaraciones: 'smartcustoms_declaraciones',
     sesion: 'sc_sesion'
 };
@@ -66,6 +66,11 @@ function leerLista(clave) {
 // datos del declarante
 function leerConfig() {
     return leerJSON(K.config, {});
+}
+
+// cuantos recibos se han generado (si venia el contador viejo de XML, se aprovecha)
+function leerRecibos() {
+    return parseInt(localStorage.getItem(K.recibos)) || parseInt(localStorage.getItem('sc_xml_generados')) || 0;
 }
 
 // guarda lo que le pasen; devuelve false si no se pudo (almacenamiento lleno o bloqueado)

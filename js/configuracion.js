@@ -118,8 +118,8 @@ function mostrarUsuarios() {
         }).join('');
 
         html += '<tr data-id="' + u.id + '">' +
-            '<td>' + escaparXML(u.usuario) + '</td>' +
-            '<td>' + escaparXML(u.nombre) + '</td>' +
+            '<td>' + escaparHTML(u.usuario) + '</td>' +
+            '<td>' + escaparHTML(u.nombre) + '</td>' +
             '<td><select>' + opciones + '</select></td>' +
             '<td>' + (u.activo ? 'Activo' : 'Desactivado') + '</td>' +
             '<td class="acciones">' +
@@ -153,7 +153,7 @@ function exportarRespaldo() {
         productos: leerLista(K.productos),
         declaraciones: leerLista(K.declaraciones),
         config: leerConfig(),
-        xmlGenerados: parseInt(localStorage.getItem(K.xml)) || 0
+        recibosGenerados: leerRecibos()
     };
     descargar('respaldo_smartcustoms.json', JSON.stringify(copia, null, 2), 'application/json');
 }
@@ -250,7 +250,8 @@ function limpiarRespaldo(d) {
         codigoDeclarante: PATRON.codigo.test(String((d.config || {}).codigoDeclarante)) ? d.config.codigoDeclarante : '',
         aduanaDefecto: PATRON.aduana.test(String((d.config || {}).aduanaDefecto)) ? d.config.aduanaDefecto : ''
     };
-    limpio.xmlGenerados = Math.max(0, Math.min(parseInt(d.xmlGenerados) || 0, 1e9));
+    // los respaldos viejos guardaban el contador como xmlGenerados
+    limpio.recibosGenerados = Math.max(0, Math.min(parseInt(d.recibosGenerados || d.xmlGenerados) || 0, 1e9));
     return limpio;
 }
 
@@ -271,7 +272,8 @@ function importarRespaldo(archivo) {
                 guardarLista(K.productos, d.productos) && guardarLista(K.declaraciones, d.declaraciones) &&
                 guardarLista(K.config, d.config);
             if (!ok) return;
-            localStorage.setItem(K.xml, d.xmlGenerados);
+            localStorage.setItem(K.recibos, d.recibosGenerados);
+            localStorage.removeItem('sc_xml_generados');
             mostrarAviso('Respaldo cargado');
             setTimeout(function () { window.location.reload(); }, 800);
         } catch (e) {
@@ -287,7 +289,8 @@ function borrarDatos() {
     localStorage.removeItem(K.declaraciones);
     localStorage.removeItem(K.clientes);
     localStorage.removeItem(K.productos);
-    localStorage.removeItem(K.xml);
+    localStorage.removeItem(K.recibos);
+    localStorage.removeItem('sc_xml_generados');
     mostrarAviso('Datos borrados');
 }
 

@@ -40,7 +40,7 @@ function dibujarMenu() {
     html += '</ul>';
 
     html += '<div class="usuario-box">';
-    html += '<b>' + escaparXML(ses.nombre) + '</b>';
+    html += '<b>' + escaparHTML(ses.nombre) + '</b>';
     html += '<small>' + ses.rol + '</small>';
     html += '<button id="btnClave" class="btn-claro">' + icono('shield') + 'Cambiar contraseña</button>';
     html += '<button id="btnSalirMenu" class="btn-claro">' + icono('logout') + 'Cerrar sesión</button>';
@@ -149,22 +149,15 @@ function fechaHoy() {
     return new Date().toLocaleDateString('en-GB');   // dd/mm/yyyy
 }
 
-// quita tildes y simbolos para usar el texto como etiqueta xml
-function limpiarTexto(t) {
-    // para nombres de etiquetas xml: sin tildes ni espacios
-    return t.normalize('NFD').replace(/[̀-ͯ]/g, '')
-        .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
-}
-
-// cambia & < > y comillas para que no rompan el xml
-function escaparXML(t) {
+// cambia & < > y comillas para que el texto no rompa el html
+function escaparHTML(t) {
     return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;')
         .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // crea el archivo en memoria y lo baja con un link falso
 function descargar(nombre, contenido, tipo) {
-    var blob = new Blob([contenido], { type: tipo || 'application/xml' });
+    var blob = new Blob([contenido], { type: tipo || 'text/plain' });
     var enlace = document.createElement('a');
     enlace.href = URL.createObjectURL(blob);
     enlace.download = nombre;
@@ -199,9 +192,9 @@ function cerrarModal() {
 
 // ventana de detalle: titulo y filas [etiqueta, valor]
 function mostrarVentana(titulo, filas) {
-    var html = '<div class="modal"><h2>' + escaparXML(titulo) + '</h2><table>';
+    var html = '<div class="modal"><h2>' + escaparHTML(titulo) + '</h2><table>';
     filas.forEach(function (f) {
-        html += '<tr><td>' + escaparXML(f[0]) + '</td><td>' + escaparXML(f[1] || '-') + '</td></tr>';
+        html += '<tr><td>' + escaparHTML(f[0]) + '</td><td>' + escaparHTML(f[1] || '-') + '</td></tr>';
     });
     abrirModal(html + '</table><div class="botones"><button id="btnCerrarVentana">Cerrar</button></div></div>');
     $('btnCerrarVentana').onclick = cerrarModal;
@@ -243,10 +236,9 @@ function convertirFecha(texto) {
     return p[2] + '-' + p[1] + '-' + p[0];
 }
 
-// suma 1 al contador de xml generados
-function sumarXML() {
-    var n = parseInt(localStorage.getItem(K.xml)) || 0;
-    localStorage.setItem(K.xml, n + 1);
+// suma 1 al contador de recibos generados
+function sumarRecibo() {
+    localStorage.setItem(K.recibos, leerRecibos() + 1);
 }
 
 // ---------- al cargar la pagina ----------

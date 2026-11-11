@@ -67,7 +67,7 @@ function mostrarLista() {
         if (texto && junto.indexOf(texto) == -1) return;
 
         html += '<tr>' + CATALOGO.columnas.map(function (p) {
-            return '<td>' + escaparXML(r[p] || '-') + '</td>';
+            return '<td>' + escaparHTML(r[p] || '-') + '</td>';
         }).join('') + '<td class="acciones">';
         if (puedeModificar) {
             html += '<button class="editar" data-id="' + r.id + '">' + icono('edit') + 'Editar</button>' +

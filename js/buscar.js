@@ -8,14 +8,14 @@ function crearFila(reg) {
     var clase = reg.estado.toLowerCase();
 
     tr.innerHTML =
-        '<td><span class="estado ' + clase + '">' + escaparXML(reg.estado) + '</span></td>' +
-        '<td>' + escaparXML(reg.referencia) + '</td>' +
-        '<td>' + escaparXML(reg.tipo) + '</td>' +
-        '<td>' + escaparXML(reg.factura || '-') + '</td>' +
-        '<td>' + escaparXML(reg.cliente) + '</td>' +
-        '<td>' + escaparXML(reg.proveedor || '-') + '</td>' +
-        '<td>' + escaparXML(reg.aduana) + '</td>' +
-        '<td>' + escaparXML(reg.fecha) + '</td>' +
+        '<td><span class="estado ' + clase + '">' + escaparHTML(reg.estado) + '</span></td>' +
+        '<td>' + escaparHTML(reg.referencia) + '</td>' +
+        '<td>' + escaparHTML(reg.tipo) + '</td>' +
+        '<td>' + escaparHTML(reg.factura || '-') + '</td>' +
+        '<td>' + escaparHTML(reg.cliente) + '</td>' +
+        '<td>' + escaparHTML(reg.proveedor || '-') + '</td>' +
+        '<td>' + escaparHTML(reg.aduana) + '</td>' +
+        '<td>' + escaparHTML(reg.fecha) + '</td>' +
         '<td class="acciones"></td>';
     return tr;
 }
@@ -55,23 +55,26 @@ function verDeclaracion(tr) {
     mostrarVentana('Declaración ' + d.referencia, filas);
 }
 
-// muestra el recibo con el xml de una fila (guardada o de ejemplo)
-function xmlDeFila(tr) {
+// muestra el recibo de una fila (guardada o de ejemplo)
+function reciboDeFila(tr) {
     var reg = buscarRegistro(tr.getAttribute('data-id'));
 
     // las filas de ejemplo no tienen formulario guardado, se arma con lo que hay
     if (!reg) {
         var d = datosDeFila(tr);
         reg = {
+            ejemplo: true,
             campos: {
                 'Referencia DUA': d.referencia, 'Tipo Declaración': d.tipo,
                 'Cliente / Importador': d.cliente, 'Aduana de Despacho': d.aduana
             },
             documentos: [{ codigo: '380', documento: 'Factura Comercial', referencia: d.factura, fecha: '' }],
-            mercancias: []
+            mercancias: [],
+            fecha: d.fecha,
+            estado: d.estado
         };
     }
-    mostrarRecibo(reg, 'DUA');
+    mostrarRecibo(reg, { origen: 'guardada' });
 }
 
 // el declarante solo toca las suyas y mientras esten pendientes; el admin todas
@@ -104,7 +107,7 @@ function cambiarEstado(tr) {
 var FILTROS = ['fRef', 'fFactura', 'fCliente', 'fDesde', 'fHasta'];
 
 // icono de cada boton de las filas (segun su clase)
-var ICONO_BOTON = { ver: 'eye', editar: 'edit', 'estado-btn': 'check-circle', xml: 'download', borrar: 'trash' };
+var ICONO_BOTON = { ver: 'eye', editar: 'edit', 'estado-btn': 'check-circle', recibo: 'file-text', borrar: 'trash' };
 
 // icono de cada estado
 var ICONO_ESTADO = { pendiente: 'clock', revisado: 'eye', aprobado: 'check-circle' };
@@ -146,7 +149,7 @@ function ponerAcciones(tr) {
         var textos = { 'Pendiente': 'Revisar', 'Revisado': 'Aprobar', 'Aprobado': 'Reabrir' };
         boton(textos[reg.estado], 'estado-btn', function () { cambiarEstado(tr); });
     }
-    boton('XML', 'xml', function () { xmlDeFila(tr); });
+    boton('Recibo', 'recibo', function () { reciboDeFila(tr); });
     if (reg && puedeEditarRegistro(reg)) {
         boton('Eliminar', 'borrar', function () { eliminarDeclaracion(tr); });
     }
