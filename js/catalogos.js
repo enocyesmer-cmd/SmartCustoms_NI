@@ -1,5 +1,56 @@
-// SmartCustoms NI - CRUD generico para clientes y productos
-// Cada pagina define su configuracion en CATALOGO (clientes.js / productos.js)
+// SmartCustoms NI - clientes y productos
+// Une catalogo.js, clientes.js y productos.js. La logica es la misma para los dos (CRUD generico);
+// lo unico que cambia entre paginas es su configuracion dentro de CATALOGOS.
+
+// ============================================================
+// CONFIGURACION de cada pagina (antes clientes.js y productos.js)
+// ============================================================
+
+var CATALOGOS = {
+    // clientes (importadores y consignatarios)
+    clientes: {
+        nombre: 'cliente', plural: 'clientes', clave: K.clientes, guardado: 'Cliente guardado',
+        form: 'formCliente', error: 'errorCliente', titulo: 'tituloFormCliente',
+        guardar: 'btnGuardarCliente', limpiar: 'btnLimpiarCliente', buscar: 'cBuscar', cuerpo: 'listaClientes',
+        maximo: 80,
+        columnas: ['codigo', 'nombre', 'tipo', 'ruc', 'telefono', 'correo'],
+        buscarEn: ['codigo', 'nombre', 'ruc'],
+        duplicado: { prop: 'codigo', mensaje: 'Ya existe un cliente con ese código' },
+        campos: [
+            { id: 'cCodigo', prop: 'codigo', valida: function (v) { return PATRON.codigo.test(v) ? '' : 'El código es obligatorio: letras, números, punto o guion (máx. 15)'; } },
+            { id: 'cNombre', prop: 'nombre', valida: function (v) { return largoOk(v, 2, 80) ? '' : 'El nombre es obligatorio (2 a 80 caracteres)'; } },
+            { id: 'cTipo', prop: 'tipo', valida: function (v) { return ['Importador', 'Consignatario', 'Ambos'].indexOf(v) != -1 ? '' : 'Elija un tipo válido'; } },
+            { id: 'cRuc', prop: 'ruc', valida: function (v) { return v == '' || PATRON.ruc.test(v) ? '' : 'El RUC solo lleva letras, números y guiones (3 a 20)'; } },
+            { id: 'cTelefono', prop: 'telefono', valida: function (v) { return v == '' || PATRON.telefono.test(v) ? '' : 'El teléfono no es válido (solo números, +, guiones y paréntesis)'; } },
+            { id: 'cCorreo', prop: 'correo', valida: function (v) { return v == '' || (PATRON.correo.test(v) && v.length <= 80) ? '' : 'El correo no es válido'; } },
+            { id: 'cDireccion', prop: 'direccion', max: 120, valida: function (v) { return v.length <= 120 ? '' : 'La dirección es muy larga (máx. 120)'; } }
+        ]
+    },
+
+    // productos y partidas arancelarias
+    productos: {
+        nombre: 'producto', plural: 'productos', clave: K.productos, guardado: 'Producto guardado',
+        form: 'formProducto', error: 'errorProducto', titulo: 'tituloFormProducto',
+        guardar: 'btnGuardarProducto', limpiar: 'btnLimpiarProducto', buscar: 'pBuscar', cuerpo: 'listaProductos',
+        maximo: 150,
+        columnas: ['partida', 'descripcion', 'origen', 'procedimiento'],
+        buscarEn: ['partida', 'descripcion'],
+        duplicado: { prop: 'partida', mensaje: 'Esa partida ya está en el catálogo' },
+        campos: [
+            { id: 'pPartida', prop: 'partida', max: 8, valida: function (v) { return PATRON.partida.test(v) ? '' : 'La partida debe tener exactamente 8 dígitos'; } },
+            { id: 'pDescripcion', prop: 'descripcion', valida: function (v) { return largoOk(v, 3, 150) ? '' : 'La descripción es obligatoria (3 a 150 caracteres)'; } },
+            { id: 'pOrigen', prop: 'origen', max: 2, mayus: true, valida: function (v) { return v == '' || PATRON.pais.test(v) ? '' : 'El origen debe ser un código de 2 letras, por ejemplo US'; } },
+            { id: 'pProc', prop: 'procedimiento', max: 4, def: '4000', valida: function (v) { return v == '' || PATRON.procedimiento.test(v) ? '' : 'El procedimiento solo lleva números (máx. 4 dígitos)'; } }
+        ]
+    }
+};
+
+// la pagina decide cual se usa (data-pagina="clientes" o "productos")
+var CATALOGO = CATALOGOS[document.body.getAttribute('data-pagina')];
+
+// ============================================================
+// LOGICA comun (antes catalogo.js)
+// ============================================================
 
 var editando = null;   // id del registro que se esta editando
 
@@ -101,7 +152,7 @@ function accionFila(e) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (window.sinAcceso) return;
+    if (window.sinAcceso || !CATALOGO) return;   // esta pagina no es de clientes ni de productos
 
     // el revisor solo consulta
     if (!puedeModificarCatalogos(sesionActual().rol)) $(CATALOGO.form).style.display = 'none';

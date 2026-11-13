@@ -67,7 +67,7 @@ Cualquier otro hosting con Docker sirve usando el `Dockerfile` (monte un volumen
 
 Todo está en `server/db.js`, en el bloque `COLECCIONES`:
 - **Nueva columna** (para poder consultarla con SQL): agréguela en `columnas` de esa tabla. Al arrancar se crea sola, sin borrar datos.
-- **Nueva tabla:** agregue una entrada con su clave del navegador y su nombre de tabla, y súmela a `TODAS`/`COLECCIONES` en `js/sync.js`.
+- **Nueva tabla:** agregue una entrada con su clave del navegador y su nombre de tabla, y súmela a `TODAS`/`COLECCIONES` en `js/nucleo.js` (sección SYNC).
 
 Cada registro se guarda completo (JSON) en la columna `datos`, así que agregar campos nuevos en los formularios no rompe nada.
 
@@ -80,12 +80,18 @@ Cada registro se guarda completo (JSON) en la columna `datos`, así que agregar 
 ## 7. Estructura
 
 ```
-index.html, login.html, ...   páginas de la web
-css/estilos.css               estilos originales
-css/profesional.css           capa visual (adaptable a celular, tablet y pantallas grandes)
-js/sync.js                    conecta la web con la base de datos (si hay servidor)
-js/recibo.js                  recibo en PDF (sin XML)
+login.html, index.html, ...   las 9 páginas de la web (y 404.html)
+css/estilos.css               todos los estilos (la capa «profesional» va al final del archivo)
+js/nucleo.js                  lo común a todas las páginas: conexión con la base de datos (sync),
+                              datos/sesión/permisos, iconos, validaciones, menú y ventanas
+js/inicio.js                  login y dashboard
+js/catalogos.js               clientes y productos (misma lógica, dos configuraciones)
+js/declaraciones.js           nueva declaración, buscar declaración y recibo en PDF
+js/administracion.js          reportes, configuración (usuarios, respaldo) y estado de la base de datos
+img/                          logo, íconos de la app y favicon
 server/server.js, db.js       servidor y base SQLite (sin dependencias)
 data/                         aquí se crea smartcustoms.db
 render.yaml, fly.toml, Dockerfile   archivos de publicación
+archivo/                      material que ya no usa la web (no se publica): generador de XML anterior,
+                              dos imágenes y los íconos SVG sueltos (ya están dentro de nucleo.js)
 ```

@@ -30,7 +30,7 @@ const TIPOS = {
     '.ico': 'image/x-icon', '.txt': 'text/plain; charset=utf-8'
 };
 // solo se publican estas carpetas y las paginas .html de la raiz (nunca server/, data/ ni .git)
-const CARPETAS_PUBLICAS = ['css', 'js', 'img', 'icons'];
+const CARPETAS_PUBLICAS = ['css', 'js', 'img'];
 
 function rutaPublica(urlPath) {
     let p;
